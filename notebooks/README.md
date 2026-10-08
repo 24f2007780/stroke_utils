@@ -13,6 +13,12 @@ This directory contains Jupyter notebooks demonstrating programmatic access, mul
 | **Stroke MRI Analysis** | [`stroke_mri.ipynb`](stroke_mri.ipynb) | Core neuroimaging exploration of stroke lesion markers, DWI hyperintensity, ADC hypointensity, and intensity distributions. | `roi_utils`, `annotations_utils`, `mri_utils` |
 | **MRI Testing & Validation** | [`MRI_testing.ipynb`](MRI_testing.ipynb) | Comprehensive verification suite for NIfTI geometry, voxel-to-world transforms, brain masking, paired diffusion analysis (iv11 vs iv16), and atlas burden lookups. | `mri_utils`, `nibabel` |
 | **MRI Library Exploration** | [`lib-mri.ipynb`](lib-mri.ipynb) | Comparative evaluation using NiBabel and Nilearn for spatial resampling, registration to ex-vivo space, and crosshair mapping. | `nibabel`, `nilearn`, `mri_utils` |
+| **Slide Catalogue & Images** | [`slide_catalog_and_images.ipynb`](slide_catalog_and_images.ipynb) | Reference 1 of 4. Blocks, stains, markers and sets; finding slides and their neighbours; pyramid levels, sections, regions and fields; one location across the four stains; block-face photographs; tiles; download table. | `slide_utils`, `display_utils` |
+| **Pathology Annotations** | [`pathology_annotations.ipynb`](pathology_annotations.ipynb) | Reference 2 of 4. Annotation classes and grades; polygon measurements, filtering and merging; label masks and labelled tiles; the H&E infarct as spatial reference; markers on neighbouring sections; DAB versus annotation; GeoJSON export. | `pathology_utils`, `slide_utils` |
+| **Lesion Across Sections** | [`lesion_across_sections.ipynb`](lesion_across_sections.ipynb) | Reference 3 of 4. Infarct area along the blocks and infarct volume; infarct footprint and 3D surface; marker burden along the blocks; marker profiles by distance from the infarct border. | `pathology_utils`, `slide_utils` |
+| **MRI Reference Space** | [`mri_reference_space.ipynb`](mri_reference_space.ipynb) | Reference 4 of 4. In-vivo and ex-vivo series, lesion masks and their agreement, anatomical and arterial attribution, from an MRI voxel to the histology section through it, histology versus MRI lesion section by section. | `refspace_utils`, `slide_utils` |
+
+The four reference notebooks read all data from the C-Stroke platform (`https://c-stroke.humanbrain.in`) and run on Colab, Kaggle or locally without credentials. They are meant to be read in order: images, annotations, the lesion across sections, and MRI.
 
 ## Execution Guidelines
 

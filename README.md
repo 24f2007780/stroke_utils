@@ -47,13 +47,22 @@ stroke_notebooks/
 ├── roi_utils.py              # Histology ROI array helper module
 ├── annotations_utils.py      # OpenAtlas digital pathology annotation module
 ├── mri_utils.py              # Stroke MRI NIfTI, atlas, and diffusion lesion helper module
+├── io_utils.py               # C-Stroke platform endpoints, HTTP access and download cache
+├── slide_utils.py            # SlideCatalog and SlideHelper: slide catalogue and whole-slide image access
+├── pathology_utils.py        # SectionAnnotation and AnnotationSeries: pathology annotations, DAB separation
+├── refspace_utils.py         # ReferenceSpace: MRI reference space, labels, lesion masks, block geometry
+├── display_utils.py          # Plot style and display helpers shared by the reference notebooks
 ├── notebooks/                # Jupyter tutorial and analysis notebooks
 │   ├── README.md
 │   ├── multi_modal_3d_visualization_colab.ipynb
 │   ├── stroke_annotations.ipynb
 │   ├── stroke_mri.ipynb
 │   ├── MRI_testing.ipynb
-│   └── lib-mri.ipynb
+│   ├── lib-mri.ipynb
+│   ├── slide_catalog_and_images.ipynb
+│   ├── pathology_annotations.ipynb
+│   ├── lesion_across_sections.ipynb
+│   └── mri_reference_space.ipynb
 ├── docs/                     # Architectural documentation and coordinate specs
 │   ├── README.md
 │   ├── Getting_started.md
@@ -84,6 +93,10 @@ The repository provides three lightweight, standalone Python modules located at 
 | [`roi_utils.py`](roi_utils.py) | **Histology ROI Extraction & Preprocessing**: Loading NumPy stacks from Google Drive / disk (`load_roi`, `load_and_preview_roi`), section previews (`preview_sections`), cropping, grayscale conversion, intensity normalization (`normalize_roi`), and PyTorch tensor conversion (`to_torch`). |
 | [`annotations_utils.py`](annotations_utils.py) | **Digital Pathology Annotations**: Querying OpenAtlas GeoJSON vector annotations (`fetch_roi_annotations`), coordinate transformations into ROI pixel space (`to_roi_coordinates`), class/protein filtering (`filter_annotations`), and real-tissue validation against background glass (`validate_roi_annotations`). |
 | [`mri_utils.py`](mri_utils.py) | **Stroke Neuroimaging & Multimodal Bridges**: Loading NIfTI volumes with slope/intercept applied (`load_mri`), geometry inspection (`inspect_mri`), lesion segmentation & sensitivity (`lesion_mask`, `restricted_diffusion_lesion`), paired diffusion analysis (`load_diffusion_pair`), atlas lesion burden (`regional_lesion_burden`), and MRI-to-histology slice extraction (`extract_block_plane_from_mri`). |
+| [`slide_utils.py`](slide_utils.py) | **Slide Catalogue & Whole-Slide Images** (C-Stroke platform): `SlideCatalog` (blocks, stains, IHC markers, sets of neighbouring sections, `neighbours`, `to_listing`) and `SlideHelper` per block and stain (`get_section_numbers`, `get_levels`, `get_sectionimage`, `get_region`, `get_field`, `iter_tiles`, `get_annotation`, `get_blockface`). |
+| [`pathology_utils.py`](pathology_utils.py) | **Pathology Annotations**: `SectionAnnotation` (classes and grades, measurements, filtering, label masks, distance maps, GeoJSON export) and `AnnotationSeries` (all annotated sections of a marker in a block: areas, volume, interpolation, 3D mesh); `stain_separation` for DAB. |
+| [`refspace_utils.py`](refspace_utils.py) | **MRI Reference Space**: `ReferenceSpace` reads the platform's reference-space volumes (in-vivo and ex-vivo MRI, histology volume), lesion masks, anatomical and arterial labels, stain availability and block geometry (`section_at`, `sample_on_section`). |
+| [`io_utils.py`](io_utils.py), [`display_utils.py`](display_utils.py) | Platform endpoints, HTTP access and download cache; plot style and display helpers. |
 
 ---
 
