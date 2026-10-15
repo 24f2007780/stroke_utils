@@ -1,0 +1,73 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# Distribution / packaging
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Environments
+.env
+.venv
+env/
+venv/
+ENV/
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints
+notebooks/.cachedir
+.cachedir
+.cache_annotations/
+data/.cache_annotations/
+
+# OS / Editor files
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+
+# Medical imaging and array binary files
+*.nii
+*.nii.gz
+*.bin
+*.bin.gz
+*.npy
+
+# Spatial layers and excluded raw extracts
+*.geojson
+apollo2_all_data.csv
+
+# Frontend JavaScript files and bundles
+*.js
+*.js\?*
+
+# Large archives and standalone viewer builds
+*.zip
+viewer/viewer_rakesh/
+viewer_rakesh/
+
+# Notebook local data symlinks (canonical files stored in data/)
+notebooks/data
+notebooks/manifest.json
+notebooks/sets_data.json
+
+# Re-fetchable OpenAtlas annotation cache (see data/cstroke_annotation_cache/cache_manifest.csv for URLs + sha256)
+data/cstroke_annotation_cache/*.json

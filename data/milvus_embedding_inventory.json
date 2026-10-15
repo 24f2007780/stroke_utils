@@ -1,0 +1,666 @@
+{
+  "milvus_uri": "http://vectordbdev.humanbrain.in:19530",
+  "query_note": "tile_index format is '{biosample}:{section}:{x}:{y}:{level}'. biosample here is the Stroke biosample id (217/218/313/314/315), matched directly -- NOT the Atlas id from ATLAS_BIOSAMPLE_MAP. Verified empirically: run-log 'biosample' field and tile_index prefix agree.",
+  "all_collections_on_server": [
+    "jp2_wsi_tile_embeddings_runs",
+    "jenkins_test_wsi_processing_runs",
+    "new_test_oct_processing_runs",
+    "all_level_testing_processing_runs",
+    "all_level_test_processing_runs",
+    "npy_test_wsi_tile_embeddings_runs",
+    "biomedclip_new_wsi_processing_runs",
+    "biomedclip_new_wsi_tile_embeddings",
+    "ctranspath_tif_wsi_processing_runs",
+    "ctranspath_tif_wsi_tile_embeddings",
+    "neuropathology_clip_images",
+    "uni2_wsi_processing_runs",
+    "hbp_dev_db_wsi_tile_embeddings_all_levels",
+    "conch_new_wsi_processing_runs",
+    "jenkins_test_wsi_tile_embeddings",
+    "all_level_testing_wsi_tile_embeddings",
+    "npy_cell_test_wsi_tile_embeddings_runs",
+    "ctranspath_new_wsi_tile_embeddings",
+    "uni2_wsi_tile_embeddings",
+    "dev_wsi_processing_runs",
+    "tif_wsi_tile_embeddings",
+    "jp2_wsi_tile_embeddings",
+    "new_nisl_test_wsi_tile_embeddings_runs",
+    "nisl_201_nisl_wsi_tile_embeddings_runs",
+    "resnet18_new_wsi_tile_embeddings",
+    "new_wsi_tile_embeddings_runs",
+    "new_test_oct_wsi_tile_embeddings",
+    "nisl_201_test_wsi_tile_embeddings",
+    "npy_nisl_test_wsi_tile_embeddings",
+    "virchow2_wsi_tile_embeddings",
+    "new_wsi_processing_runs",
+    "new_wsi_tile_embeddings",
+    "all_level_wsi_tile_embeddings",
+    "conch_wsi_tile_embeddings",
+    "conch_new_wsi_tile_embeddings",
+    "all_stains_wsi_tile_embeddings_runs",
+    "new_nisl_test_wsi_tile_embeddings",
+    "quiltnet_wsi_tile_embeddings",
+    "dev_wsi_tile_embeddings",
+    "astro_test_runs",
+    "astro_prod_runs",
+    "new_wsi_tile_embeddings_runs_test_ppm",
+    "all_stains_wsi_tile_embeddings",
+    "npy_cell_nisl_test_wsi_tile_embeddings",
+    "ctranspath_new_wsi_processing_runs",
+    "resnet18_new_wsi_processing_runs",
+    "hbp_dev_db_wsi_processing_runs_all_levels",
+    "astro_test",
+    "astro_prod",
+    "tif_wsi_tile_embeddings_runs"
+  ],
+  "stroke_relevant_embedding_collections": {
+    "new_wsi_tile_embeddings": {
+      "vector_dim": 768,
+      "total_row_count": 16417321,
+      "per_biosample": {
+        "217": {
+          "row_count": 1472473,
+          "distinct_sections_seen": [
+            203,
+            293,
+            533,
+            599,
+            1067,
+            1235
+          ]
+        },
+        "218": {
+          "row_count": 2423709,
+          "distinct_sections_seen": [
+            323,
+            383,
+            440,
+            476,
+            536,
+            1439,
+            1487,
+            1529,
+            1571,
+            1592,
+            1628,
+            1691,
+            1697,
+            1817
+          ]
+        },
+        "313": {
+          "row_count": 4001118,
+          "distinct_sections_seen": [
+            437,
+            473,
+            503,
+            785,
+            845,
+            899,
+            911,
+            959,
+            995,
+            1031,
+            1067,
+            1079,
+            1121,
+            1169,
+            1241,
+            1379,
+            1469,
+            1505
+          ]
+        },
+        "314": {
+          "row_count": 4148535,
+          "distinct_sections_seen": [
+            323,
+            383,
+            431,
+            467,
+            503,
+            569,
+            581,
+            596,
+            677,
+            731,
+            749,
+            767,
+            785,
+            905,
+            926,
+            1013,
+            1049,
+            1055,
+            1085,
+            1115,
+            1157,
+            1229,
+            1271,
+            1445
+          ]
+        },
+        "315": {
+          "row_count": 1864661,
+          "distinct_sections_seen": [
+            5,
+            113,
+            167,
+            185,
+            545,
+            587,
+            605,
+            683,
+            689,
+            917
+          ]
+        }
+      }
+    },
+    "uni2_wsi_tile_embeddings": {
+      "vector_dim": 1536,
+      "total_row_count": 16132359,
+      "per_biosample": {
+        "217": {
+          "row_count": 1326830,
+          "distinct_sections_seen": [
+            200,
+            203,
+            293,
+            533,
+            599,
+            1067
+          ]
+        },
+        "218": {
+          "row_count": 1552574,
+          "distinct_sections_seen": [
+            392,
+            536,
+            1529,
+            1571,
+            1592,
+            1628,
+            1691,
+            1817
+          ]
+        },
+        "313": {
+          "row_count": 4410637,
+          "distinct_sections_seen": [
+            79,
+            313,
+            479,
+            845,
+            902,
+            911,
+            929,
+            959,
+            1028,
+            1031,
+            1058,
+            1079,
+            1169,
+            1423,
+            1429,
+            1469,
+            1505
+          ]
+        },
+        "314": {
+          "row_count": 579947,
+          "distinct_sections_seen": [
+            467,
+            569,
+            581,
+            701,
+            905
+          ]
+        },
+        "315": {
+          "row_count": 222816,
+          "distinct_sections_seen": [
+            917
+          ]
+        }
+      }
+    },
+    "tif_wsi_tile_embeddings": {
+      "vector_dim": 768,
+      "total_row_count": 1188276,
+      "per_biosample": {
+        "217": {
+          "row_count": 0,
+          "distinct_sections_seen": []
+        },
+        "218": {
+          "row_count": 0,
+          "distinct_sections_seen": []
+        },
+        "313": {
+          "row_count": 0,
+          "distinct_sections_seen": []
+        },
+        "314": {
+          "row_count": 0,
+          "distinct_sections_seen": []
+        },
+        "315": {
+          "row_count": 1187956,
+          "distinct_sections_seen": [
+            605
+          ]
+        }
+      }
+    },
+    "nisl_201_test_wsi_tile_embeddings": {
+      "vector_dim": 768,
+      "total_row_count": 641129,
+      "per_biosample": {
+        "217": {
+          "row_count": 0,
+          "distinct_sections_seen": []
+        },
+        "218": {
+          "row_count": 0,
+          "distinct_sections_seen": []
+        },
+        "313": {
+          "row_count": 0,
+          "distinct_sections_seen": []
+        },
+        "314": {
+          "row_count": 0,
+          "distinct_sections_seen": []
+        },
+        "315": {
+          "row_count": 513420,
+          "distinct_sections_seen": [
+            185,
+            227,
+            239,
+            245,
+            569,
+            611,
+            617
+          ]
+        }
+      }
+    },
+    "quiltnet_wsi_tile_embeddings": {
+      "vector_dim": 512,
+      "total_row_count": 2285061,
+      "per_biosample": {
+        "217": {
+          "row_count": 0,
+          "distinct_sections_seen": []
+        },
+        "218": {
+          "row_count": 0,
+          "distinct_sections_seen": []
+        },
+        "313": {
+          "row_count": 0,
+          "distinct_sections_seen": []
+        },
+        "314": {
+          "row_count": 915196,
+          "distinct_sections_seen": [
+            731
+          ]
+        },
+        "315": {
+          "row_count": 0,
+          "distinct_sections_seen": []
+        }
+      }
+    },
+    "dev_wsi_tile_embeddings": {
+      "vector_dim": 768,
+      "total_row_count": 1119848,
+      "per_biosample": {
+        "217": {
+          "row_count": 0,
+          "distinct_sections_seen": []
+        },
+        "218": {
+          "row_count": 0,
+          "distinct_sections_seen": []
+        },
+        "313": {
+          "row_count": 0,
+          "distinct_sections_seen": []
+        },
+        "314": {
+          "row_count": 0,
+          "distinct_sections_seen": []
+        },
+        "315": {
+          "row_count": 189834,
+          "distinct_sections_seen": [
+            335,
+            347,
+            359
+          ]
+        }
+      }
+    },
+    "conch_wsi_tile_embeddings": {
+      "vector_dim": 512,
+      "total_row_count": 341825,
+      "per_biosample": {
+        "217": {
+          "row_count": 0,
+          "distinct_sections_seen": []
+        },
+        "218": {
+          "row_count": 0,
+          "distinct_sections_seen": []
+        },
+        "313": {
+          "row_count": 221328,
+          "distinct_sections_seen": [
+            1469
+          ]
+        },
+        "314": {
+          "row_count": 0,
+          "distinct_sections_seen": []
+        },
+        "315": {
+          "row_count": 0,
+          "distinct_sections_seen": []
+        }
+      }
+    },
+    "all_level_wsi_tile_embeddings": {
+      "vector_dim": 768,
+      "total_row_count": 9573,
+      "per_biosample": {
+        "217": {
+          "row_count": 0,
+          "distinct_sections_seen": []
+        },
+        "218": {
+          "row_count": 0,
+          "distinct_sections_seen": []
+        },
+        "313": {
+          "row_count": 0,
+          "distinct_sections_seen": []
+        },
+        "314": {
+          "row_count": 0,
+          "distinct_sections_seen": []
+        },
+        "315": {
+          "row_count": 9573,
+          "distinct_sections_seen": [
+            167
+          ]
+        }
+      }
+    },
+    "new_nisl_test_wsi_tile_embeddings": {
+      "vector_dim": 768,
+      "total_row_count": 2453603,
+      "per_biosample": {
+        "217": {
+          "row_count": 0,
+          "distinct_sections_seen": []
+        },
+        "218": {
+          "row_count": 0,
+          "distinct_sections_seen": []
+        },
+        "313": {
+          "row_count": 948558,
+          "distinct_sections_seen": [
+            298,
+            313
+          ]
+        },
+        "314": {
+          "row_count": 0,
+          "distinct_sections_seen": []
+        },
+        "315": {
+          "row_count": 19902,
+          "distinct_sections_seen": [
+            167,
+            295
+          ]
+        }
+      }
+    },
+    "conch_new_wsi_tile_embeddings": {
+      "vector_dim": 512,
+      "total_row_count": 15788,
+      "per_biosample": {
+        "217": {
+          "row_count": 0,
+          "distinct_sections_seen": []
+        },
+        "218": {
+          "row_count": 0,
+          "distinct_sections_seen": []
+        },
+        "313": {
+          "row_count": 0,
+          "distinct_sections_seen": []
+        },
+        "314": {
+          "row_count": 0,
+          "distinct_sections_seen": []
+        },
+        "315": {
+          "row_count": 14240,
+          "distinct_sections_seen": [
+            605
+          ]
+        }
+      }
+    }
+  },
+  "stroke_relevant_run_log_collections": {
+    "new_wsi_processing_runs": {
+      "n_matching_rows_in_sample": 21,
+      "sample_size_queried": 565,
+      "markers_or_stains_seen_in_filenames": [
+        "CD34",
+        "CD4",
+        "CD68",
+        "GEAP",
+        "GFAP"
+      ],
+      "example_filenames": [
+        "/home/data/315/IHCS/B_315_HB2CV[LL2][CD34]-SL_2-ST_IHCS-SE_5_compressed.jp2",
+        "/home/data/315/IHCS/B_315_HB2CV[LL2][CD34]-SL_38-ST_IHCS-SE_113_compressed.jp2",
+        "/home/data/315/IHCS/B_315_HB2CV[LL2][CD68]-SL_62-ST_IHCS-SE_185_compressed.jp2",
+        "/home/data/315/IHCS/B_315_HB2CV[LL2][GFAP]-SL_56-ST_IHCS-SE_167_compressed.jp2",
+        "/home/data/315/IHCS/B_315_HB2CV[LL2][GFAP]-SL_68-ST_IHCS-SE_203_compressed.jp2"
+      ]
+    },
+    "dev_wsi_processing_runs": {
+      "n_matching_rows_in_sample": 4,
+      "sample_size_queried": 351,
+      "markers_or_stains_seen_in_filenames": [
+        "APP",
+        "CD68",
+        "COL4"
+      ],
+      "example_filenames": [
+        "/home/data/315/IHCS/B_315_HB2CV[LL2][CD68]-SL_116-ST_IHCS-SE_347_compressed.jp2",
+        "/home/data/315/IHCS/B_315_HB2CV[LL2][COL4]-SL_112-ST_IHCS-SE_335_compressed.jp2",
+        "/home/data/315/IHCS/B_315_HBCV[LL2][APP]-SL_120-ST_IHCS-SE_359_compressed.jp2"
+      ]
+    },
+    "uni2_wsi_processing_runs": {
+      "n_matching_rows_in_sample": 4,
+      "sample_size_queried": 10,
+      "markers_or_stains_seen_in_filenames": [
+        "APP",
+        "H1F1a"
+      ],
+      "example_filenames": [
+        "/volumes/analytics/218/IHCS/B_218_HB2CV[RTL][APP]-SL_131-ST_IHCS-SE_392_compressed.tif",
+        "/volumes/analytics/313/IHCS/B_313_HB2CV[LM][APP]-SL_160-ST_IHCS-SE_479_compressed.tif",
+        "/volumes/analytics/313/IHCS/B_313_HB2CV[LM][APP]-SL_282-ST_IHCS-SE_1505_compressed.tif",
+        "/volumes/analytics/314/IHCS/B_314_HB2CV[LL1][H1F1a]-SL_194-ST_IHCS-SE_581_compressed.tif"
+      ]
+    },
+    "ctranspath_tif_wsi_processing_runs": {
+      "n_matching_rows_in_sample": 2,
+      "sample_size_queried": 4,
+      "markers_or_stains_seen_in_filenames": [
+        "GFAP",
+        "H1F1a"
+      ],
+      "example_filenames": [
+        "/volumes/analytics/314/IHCS/B_314_HB2CV[LL1][H1F1a]-SL_194-ST_IHCS-SE_581_compressed.tif",
+        "/volumes/analytics/315/IHCS/B_315_HB2CV[LL2][GFAP]-SL_202-ST_IHCS-SE_605_compressed.tif"
+      ]
+    },
+    "conch_new_wsi_processing_runs": {
+      "n_matching_rows_in_sample": 1,
+      "sample_size_queried": 3,
+      "markers_or_stains_seen_in_filenames": [
+        "GEAP"
+      ],
+      "example_filenames": [
+        "/volumes/analytics/315/IHCS/B_315_HBCV[LL2][GEAP]-SL_202-ST_IHCS-SE_605_compressed.jp2"
+      ]
+    },
+    "jenkins_test_wsi_processing_runs": {
+      "n_matching_rows_in_sample": 1,
+      "sample_size_queried": 2,
+      "markers_or_stains_seen_in_filenames": [
+        "H1F1a"
+      ],
+      "example_filenames": [
+        "/input/315/IHCS/B_315_HB2CV[LL2][H1F1a]-SL_34-ST_IHCS-SE_101_compressed.tif"
+      ]
+    },
+    "all_level_test_processing_runs": {
+      "n_matching_rows_in_sample": 2,
+      "sample_size_queried": 31,
+      "markers_or_stains_seen_in_filenames": [
+        "GFAP"
+      ],
+      "example_filenames": [
+        "/home/data/315/IHCS/B_315_HB2CV[LL2][GFAP]-SL_56-ST_IHCS-SE_167_compressed.jp2"
+      ]
+    },
+    "astro_test_runs": {
+      "n_matching_rows_in_sample": 3,
+      "sample_size_queried": 3,
+      "markers_or_stains_seen_in_filenames": [
+        "GFAP"
+      ],
+      "example_filenames": [
+        "/volumes/analytics/315/IHCS/B_315_HB2CV[LL2][GFAP]-SL_56-ST_IHCS-SE_167_compressed.jp2"
+      ]
+    },
+    "astro_prod_runs": {
+      "n_matching_rows_in_sample": 5,
+      "sample_size_queried": 5,
+      "markers_or_stains_seen_in_filenames": [
+        "GFAP"
+      ],
+      "example_filenames": [
+        "/volumes/analytics/315/IHCS/B_315_HB2CV[LL2][GFAP]-SL_56-ST_IHCS-SE_167_compressed.jp2"
+      ]
+    },
+    "all_stains_wsi_tile_embeddings_runs": {
+      "n_matching_rows_in_sample": 5,
+      "sample_size_queried": 5,
+      "markers_or_stains_seen_in_filenames": [
+        "GFAP",
+        "LL2"
+      ],
+      "example_filenames": [
+        "/apps/volumes/images/tif_tiled/B_315_HB2CV[LL2][GFAP]-SL_190-ST_IHCS-SE_569_compressed_rot.tif",
+        "/apps/volumes/images/tif_tiled/B_315_HB2CV_[LL2]-SL_189-ST_HEOS-SE_566_compressed_rot.tif"
+      ]
+    },
+    "tif_wsi_tile_embeddings_runs": {
+      "n_matching_rows_in_sample": 7,
+      "sample_size_queried": 10,
+      "markers_or_stains_seen_in_filenames": [
+        "GEAP"
+      ],
+      "example_filenames": [
+        "/volumes/analytics/315/IHCS/B_315_HBCV[LL2][GEAP]-SL_202-ST_IHCS-SE_605_compressed.tif"
+      ]
+    },
+    "new_nisl_test_wsi_tile_embeddings_runs": {
+      "n_matching_rows_in_sample": 5,
+      "sample_size_queried": 36,
+      "markers_or_stains_seen_in_filenames": [
+        "GFAP",
+        "LL2",
+        "LM"
+      ],
+      "example_filenames": [
+        "/volumes/analytics/313/NISL/B_313_HB2CV[LM]-SL_100-ST_NISL-SE_298_compressed.jp2",
+        "/volumes/analytics/313/NISL/B_313_HB2CV[LM]-SL_105-ST_NISL-SE_313_compressed.tif",
+        "/volumes/analytics/315/IHCS/B_315_HB2CV[LL2][GFAP]-SL_56-ST_IHCS-SE_167_compressed.jp2",
+        "/volumes/analytics/315/NISL/B_315_HB2CV[LL2]-SL_99-ST_NISL-SE_295_compressed.jp2"
+      ]
+    },
+    "nisl_201_nisl_wsi_tile_embeddings_runs": {
+      "n_matching_rows_in_sample": 15,
+      "sample_size_queried": 18,
+      "markers_or_stains_seen_in_filenames": [
+        "AQP4",
+        "CD68",
+        "GFAP",
+        "H1F1a"
+      ],
+      "example_filenames": [
+        "/volumes/analytics/315/IHCS/B_315_HB2CV[LL2][CD68]-SL_62-ST_IHCS-SE_185_compressed.tif",
+        "/volumes/analytics/315/IHCS/B_315_HB2CV[LL2][CD68]-SL_76-ST_IHCS-SE_227_compressed.tif",
+        "/volumes/analytics/315/IHCS/B_315_HB2CV[LL2][CD68]-SL_82-ST_IHCS-SE_245_compressed.tif",
+        "/volumes/analytics/315/IHCS/B_315_HB2CV[LL2][GFAP]-SL_190-ST_IHCS-SE_569_compressed.tif",
+        "/volumes/analytics/315/IHCS/B_315_HB2CV[LL2][GFAP]-SL_80-ST_IHCS-SE_239_compressed.tif"
+      ]
+    },
+    "new_wsi_tile_embeddings_runs": {
+      "n_matching_rows_in_sample": 182,
+      "sample_size_queried": 225,
+      "markers_or_stains_seen_in_filenames": [
+        "APP",
+        "CASPASE3",
+        "CD34",
+        "CD68",
+        "FIB",
+        "Fib",
+        "GAP43",
+        "GEAP",
+        "GFAP",
+        "H1F1a",
+        "HIF1A",
+        "HIF1a",
+        "HIFIA",
+        "LL1"
+      ],
+      "example_filenames": [
+        "/mnt/remote/analytics/314/IHCS/B_314_HB2CV[LL1][CD68]-SL_256-ST_IHCS-SE_767_compressed.tif",
+        "/volumes//analytics/218/IHCS/B_218_HB2CV[RTL][HIF1A]-SL_480-ST_IHCS-SE_1439_compressed.tif",
+        "/volumes//analytics/314/HEOS/B_314_HB2CV[LL1]-SL_309-ST_HEOS-SE_926_compressed.tif",
+        "/volumes//analytics/314/IHCS/B_314_HB2CV[LL1][H1F1a]-SL_226-ST_IHCS-SE_677_compressed.tif",
+        "/volumes//analytics/315/IHCS/B_315_HB2CV[LL2][Fib]-SL_228-ST_IHCS-SE_683_compressed.tif"
+      ]
+    },
+    "new_wsi_tile_embeddings_runs_test_ppm": {
+      "n_matching_rows_in_sample": 1,
+      "sample_size_queried": 1,
+      "markers_or_stains_seen_in_filenames": [
+        "GEAP"
+      ],
+      "example_filenames": [
+        "/apps/volumes/images/ppm/B_315_HBCV[LL2][GEAP]-SL_202-ST_IHCS-SE_605_lossless.ppm"
+      ]
+    }
+  }
+}
