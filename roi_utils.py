@@ -217,7 +217,8 @@ def get_sgbc_roi_id(timeout=20):
     return input("Paste the Google Drive file ID (ROI_DRIVE_ID): ").strip()
 
 
-def load_and_preview_roi(drive_id=None, custom_sections=None, mmap=False, preview=True, return_meta=False):
+def load_and_preview_roi(drive_id=None, custom_sections=None, mmap=False, preview=True, return_meta=False,
+                         atlas_biosample_id=None, atlas_sections=None):
     """Download an ROI stack from Google Drive, print its info, and preview it.
 
     drive_id         Google Drive file ID or share URL (file must be link-shared). Omit it to receive the ID
@@ -225,6 +226,9 @@ def load_and_preview_roi(drive_id=None, custom_sections=None, mmap=False, previe
     custom_sections  list of section indices to preview (default: ~10 evenly spaced).
     mmap             keep the download on disk and memory-map it (huge stacks).
     preview          set False to skip the plot.
+    atlas_biosample_id  label the preview with Atlas section numbers (SE<number>) instead of stack indices:
+                     looked up with resolve_atlas_sections from the file's stain and centre section.
+    atlas_sections   or pass your own {stack_index: Atlas section} mapping (takes precedence).
     return_meta      also return {"filename", "center_section", "stain"} parsed from the file name
                      (center_section is the Atlas section the stack is centred on; see resolve_atlas_sections).
 
@@ -265,14 +269,22 @@ def load_and_preview_roi(drive_id=None, custom_sections=None, mmap=False, previe
         for k, v in meta.items():
             print(f"  • {k:<25}: {v}")
 
+    se = re.search(r"(?:SE|se|sec|section(?:_number)?)[-_=]?(\d+)", re.sub(r"\.npy$", "", filename, flags=re.I))
+    if atlas_sections is None and atlas_biosample_id is not None:
+        if not se or not meta.get("Stain"):
+            raise ValueError("Cannot label with Atlas sections: no SE<number> or stain in the file name "
+                             f"{filename!r}. Pass atlas_sections={{stack_index: section}} instead.")
+        rows = resolve_atlas_sections(range(_n_sections(roi)), biosample_id=atlas_biosample_id, stain=meta["Stain"],
+                                      center_section=int(se.group(1)), n_sections=_n_sections(roi), verbose=False)
+        atlas_sections = {r["stack_index"]: r["atlas_section"] for r in rows}
+
     if preview:
         n = _n_sections(roi)
         if custom_sections is not None:
-            preview_sections(roi, sections=custom_sections)
+            preview_sections(roi, sections=custom_sections, atlas_sections=atlas_sections)
         else:
-            preview_sections(roi, sections=np.linspace(0, n - 1, min(10, n), dtype=int))
+            preview_sections(roi, sections=np.linspace(0, n - 1, min(10, n), dtype=int), atlas_sections=atlas_sections)
     if return_meta:
-        se = re.search(r"(?:SE|se|sec|section(?:_number)?)[-_=]?(\d+)", re.sub(r"\.npy$", "", filename, flags=re.I))
         return roi, {"filename": filename, "center_section": int(se.group(1)) if se else None,
                      "stain": meta.get("Stain")}
     return roi
@@ -282,7 +294,7 @@ def load_and_preview_roi(drive_id=None, custom_sections=None, mmap=False, previe
 # Exploring
 # --------------------------------------------------------------------------- #
 def preview_sections(roi, start=None, end=None, step=1, sections=None,
-                     max_sections=30, ncols=5, context=0):
+                     max_sections=30, ncols=5, context=0, atlas_sections=None):
     """Plot sections in a grid.
 
     preview_sections(roi, start=100, end=150)       sections 100..149 (end exclusive)
@@ -292,10 +304,14 @@ def preview_sections(roi, start=None, end=None, step=1, sections=None,
     preview_sections(roi, sections=[54], context=1) section 54 plus 1 neighbour each side (54 in red)
 
     Long ranges are thinned to max_sections evenly spaced ones to keep plots fast.
+    atlas_sections: {stack_index: Atlas section number} (or a list, one per stack index), e.g. built from
+    resolve_atlas_sections. Titles then read "SE<number> (stack <index>)" instead of "Section <index>".
     """
     import matplotlib.pyplot as plt
 
     n = _n_sections(roi)
+    amap = None if atlas_sections is None else (dict(atlas_sections) if isinstance(atlas_sections, dict)
+                                                else dict(enumerate(atlas_sections)))
     if sections is None and start is None and end is None and step == 1:
         idx = list(np.unique(np.linspace(0, n - 1, min(10, n), dtype=int)))
     else:
@@ -314,7 +330,8 @@ def preview_sections(roi, start=None, end=None, step=1, sections=None,
     axes = np.atleast_1d(axes).ravel()
     for ax, i in zip(axes, idx):
         _show(ax, roi[i] if roi.ndim >= 3 else roi)
-        ax.set_title(f"Section {i}", fontsize=10, color="red" if i in marked else "black")
+        title = f"Section {i}" if amap is None or amap.get(i) is None else f"SE{amap[i]} (stack {i})"
+        ax.set_title(title, fontsize=10, color="red" if i in marked else "black")
     for ax in axes:
         ax.axis("off")
     plt.tight_layout()
