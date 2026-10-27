@@ -696,7 +696,7 @@ def find_section_anomalies(roi, size=64, z_thr=5.0, min_change=0.02, skip_ratio=
 # --------------------------------------------------------------------------- #
 # Drive-id resolver
 # --------------------------------------------------------------------------- #
-# Same ROI Extractor host resolve_atlas_sections() talks to (see ATLAS_SECTIONS_URL below). Override with
+# Same ROI Extractor host resolve_atlas_sections() talks to (only used when resolve_atlas_sections gets api_url). Override with
 # the ROI_EXTRACTOR_BASE_URL env var, or get_roi_drive_id's own api_url=, for a different deployment.
 ROI_EXTRACTOR_BASE_URL = os.environ.get("ROI_EXTRACTOR_BASE_URL", "http://172.20.23.183:8054")
 
@@ -768,9 +768,10 @@ def get_roi_drive_id(biosample_id, section_number, x, y, z, size, mode="histolog
 # --------------------------------------------------------------------------- #
 # Atlas section numbers
 # --------------------------------------------------------------------------- #
-# Sections endpoint used by resolve_atlas_sections(). Change it here for production; its query string
-# (biosample_id, stain) supplies the defaults when those arguments are omitted.
-ATLAS_SECTIONS_URL = "http://172.20.23.183:8054/sections?biosample_id=580&stain=NISL"
+# Cached snapshot of the Atlas /sections lists used by resolve_atlas_sections() (no network needed).
+# Layout: {"blocks": {<stroke id>: {"atlas_biosample_id": 580, "stains": {"NISL": [section numbers...], ...}}}}
+ATLAS_SECTIONS_CACHE = "data/atlas_sections_inventory.json"
+DEFAULT_ATLAS_BIOSAMPLE_ID, DEFAULT_ATLAS_STAIN = 580, "NISL"
 
 
 def _section_number(rec, field=None):
@@ -794,51 +795,78 @@ def _window_start(n_total, pos, n):
     raise ValueError(f"A stack of {n} sections can't come from a list of {n_total} sections.")
 
 
+def _cached_sections(path, biosample_id, stain):
+    """Ordered section numbers for (Atlas biosample, stain) from the cached sections JSON."""
+    import json
+
+    if not os.path.exists(path):
+        raise RuntimeError(f"Sections cache {path!r} not found. Download it first, e.g. "
+                           "wget -O data/atlas_sections_inventory.json "
+                           "https://raw.githubusercontent.com/24f2007780/stroke_utils/main/data/atlas_sections_inventory.json")
+    with open(path) as f:
+        blocks = json.load(f).get("blocks", {})
+    for b in blocks.values():
+        if int(b["atlas_biosample_id"]) == int(biosample_id):
+            nums = b["stains"].get(stain)
+            if not nums:
+                raise RuntimeError(f"No cached sections for stain {stain!r} in Atlas biosample {biosample_id} "
+                                   f"(available: {[k for k, v in b['stains'].items() if v]}).")
+            return list(nums)
+    raise RuntimeError(f"Atlas biosample {biosample_id} is not in the sections cache {path!r} "
+                       f"(has: {[b['atlas_biosample_id'] for b in blocks.values()]}).")
+
+
+def _fetch_sections_live(api_url, biosample_id, stain, timeout):
+    """Optional: the raw /sections list from a live endpoint."""
+    import requests
+    from urllib.parse import urlsplit
+
+    parts = urlsplit(api_url)
+    url = f"{parts.scheme}://{parts.netloc}{parts.path.rstrip('/')}"
+    url = url if url.endswith("/sections") else url + "/sections"
+    try:
+        r = requests.get(url, params={"biosample_id": biosample_id, "stain": stain}, timeout=timeout)
+        r.raise_for_status()
+        data = r.json()
+    except (requests.RequestException, ValueError) as e:
+        raise RuntimeError(f"Could not read sections from {url}: {e}") from None
+    if isinstance(data, dict):
+        lists = [v for v in data.values() if isinstance(v, list)]
+        data = data["sections"] if isinstance(data.get("sections"), list) else (lists[0] if len(lists) == 1 else None)
+    if not isinstance(data, list) or not data:
+        raise RuntimeError(f"Unexpected or empty /sections response from {url} for biosample_id={biosample_id}, "
+                           f"stain={stain}.")
+    return data
+
+
 def resolve_atlas_sections(stack_indices, biosample_id=None, stain=None, center_section=None, n_sections=None,
-                           first_section=None, api_url=None, section_field=None, timeout=10, verbose=True):
-    """Map ROI-stack indices to Atlas section numbers with ONE request to the /sections endpoint.
+                           first_section=None, api_url=None, section_field=None, timeout=10, verbose=True,
+                           cache_path=None):
+    """Map ROI-stack indices to Atlas section numbers using the cached sections JSON (ATLAS_SECTIONS_CACHE).
 
     stack_indices   any list/array of indices into the stack (e.g. anomalies["section"]).
-    biosample_id, stain   passed to the endpoint; default to the ones in ATLAS_SECTIONS_URL (580, "NISL").
+    biosample_id, stain   Atlas biosample (e.g. 580, 587) and stain; default 580 / "NISL".
     The stack is a contiguous window of the endpoint's ordered section list, so say where it starts with EITHER
       first_section   Atlas section number of stack index 0, or
       center_section + n_sections   the SE number in the file name (load_and_preview_roi(..., return_meta=True))
                       and len(roi); the window is centred on the nearest listed section.
-    api_url         override ATLAS_SECTIONS_URL for one call, e.g. "http://host:8054" or a full /sections URL.
+    cache_path      sections JSON to read (default ATLAS_SECTIONS_CACHE).
+    api_url         optional: query a live /sections endpoint instead of the cache, e.g. "http://host:8054".
     section_field   key holding the number if the endpoint returns dict records instead of plain numbers.
 
     Returns a list of dicts: stack_index, biosample_id, stain, atlas_section, record (the API's own entry).
     Out-of-range indices give atlas_section=None. Raises RuntimeError if the API can't be reached or read.
     """
-    import requests
-    from urllib.parse import parse_qsl, urlsplit
-
-    parts = urlsplit(api_url or ATLAS_SECTIONS_URL)
-    params = dict(parse_qsl(parts.query))
-    if biosample_id is not None:
-        params["biosample_id"] = biosample_id
-    if stain:
-        params["stain"] = stain
-    biosample_id, stain = params.get("biosample_id"), params.get("stain")
+    if biosample_id is None:
+        biosample_id = DEFAULT_ATLAS_BIOSAMPLE_ID
+    stain = stain or DEFAULT_ATLAS_STAIN
     if first_section is None and center_section is None:
         raise ValueError("Say where the stack starts: first_section=<Atlas section of index 0>, or "
                          "center_section=<SE number> with n_sections=len(roi).")
-    url = f"{parts.scheme}://{parts.netloc}{parts.path.rstrip('/')}"
-    url = url if url.endswith("/sections") else url + "/sections"
-    try:
-        r = requests.get(url, params=params, timeout=timeout)
-        r.raise_for_status()
-        data = r.json()
-    except (requests.RequestException, ValueError) as e:
-        raise RuntimeError(f"Could not read sections from {url}: {e}") from None
-    if isinstance(data, dict):  # {"sections": [...]}, or any single list inside a dict
-        lists = [v for v in data.values() if isinstance(v, list)]
-        data = data["sections"] if isinstance(data.get("sections"), list) else (lists[0] if len(lists) == 1 else None)
-    if not isinstance(data, list) or not data:
-        raise RuntimeError(f"Unexpected or empty /sections response from {r.url} "
-                           f"(the endpoint has no sections for biosample_id={biosample_id}, stain={stain}; "
-                           f"the Atlas biosample/stain may differ from the annotation biosample, "
-                           f"or pass first_section/atlas section numbers explicitly).")
+    if api_url:  # optional live lookup
+        data = _fetch_sections_live(api_url, biosample_id, stain, timeout)
+    else:
+        data = _cached_sections(cache_path or ATLAS_SECTIONS_CACHE, biosample_id, stain)
     nums = np.array([_section_number(rec, section_field) for rec in data])  # API order is kept
 
     if first_section is not None:
