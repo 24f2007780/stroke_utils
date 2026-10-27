@@ -49,6 +49,7 @@ stroke_notebooks/
 ├── mri_utils.py              # Stroke MRI NIfTI, atlas, and diffusion lesion helper module
 ├── integrated_utils.py       # Multi-modal bridging and cross-scale integration pipelines
 ├── pathology_profiler.py     # Pathology-vs-lesion boundary distance and gradient analysis engine
+├── slide_utils_v1.py         # Functional WSI, tiling, DAB deconvolution, and public C-Stroke API
 ├── notebooks/                # Progressive tutorial and analysis notebooks (*.ipynb)
 │   ├── README.md
 │   ├── 01_mri_qc_and_lesion_segmentation.ipynb
@@ -56,7 +57,10 @@ stroke_notebooks/
 │   ├── 03_mri_to_histology_mapping.ipynb
 │   ├── 04_histology_annotations_and_pathology.ipynb
 │   ├── 05_multimodal_pathology_integration.ipynb
-│   └── 06_pathology_boundary_distance_profiler.ipynb
+│   ├── 06_pathology_boundary_distance_profiler.ipynb
+│   ├── 07_ihc_stain_quantification_vs_annotations.ipynb
+│   ├── 08_peri_infarct_protein_gradients.ipynb
+│   └── 09_virtual_ihc_from_nissl_and_he.ipynb
 ├── metadata/                 # Quantitative summaries, availability matrices, and audit CSVs
 │   ├── annotation_availability_matrix.csv
 │   ├── annotation_availability_summary.csv
@@ -95,6 +99,7 @@ The repository provides modular, standalone Python libraries located at the root
 | [`mri_utils.py`](mri_utils.py) | **Stroke Neuroimaging & Multimodal Bridges**: Loading NIfTI volumes with slope/intercept applied (`load_mri`), geometry inspection (`inspect_mri`), lesion segmentation & sensitivity (`lesion_mask`, `restricted_diffusion_lesion`), paired diffusion analysis (`load_diffusion_pair`, `paired_diffusion_stats`), atlas lesion burden (`regional_lesion_burden`), and MRI-to-histology slice extraction (`extract_block_plane_from_mri`). |
 | [`integrated_utils.py`](integrated_utils.py) | **Cross-Scale Integration Pipelines**: Anatomical & arterial executive summaries (`summarize_lesion_regions`), longitudinal volume & overlap comparison (`compare_lesion_across_mri`), specimen block projection (`find_lesion_histology_sections`), annotation availability (`summarize_section_annotations`), pathology density quantification (`compare_lesion_annotation_density`), and single-call pipeline orchestration (`summarize_mri_pathology`). |
 | [`pathology_profiler.py`](pathology_profiler.py) | **Pathology Boundary Distance Profiler Engine**: Analytical engine for marker-vs-lesion boundary gradient quantification, tissue-normalized density profiling, stratified bootstrap uncertainty, and Detection Studio OpenLayers layer export. |
+| [`slide_utils_v1.py`](slide_utils_v1.py) | **Whole-Slide Histology & Public C-Stroke API (v1)**: Streaming IIPImage pyramids (`fetch_region`, `fetch_thumbnail`), tile feature extraction (`tile_features`), stain separation via colour deconvolution (`stain_separation`), annotation rasterization (`rasterize_annotations`, `tile_labels`), slide catalog traversal (`load_slide_catalog`, `find_slides`, `slide_set`), and publication plotting helpers (`draw_annotation_outlines`, `scale_bar`, `set_plot_style`). |
 | [`mcp_client.py`](mcp_client.py) | **Model Context Protocol (MCP) Client**: Lightweight interactive MCP client for Google Colab/Jupyter. Connects to local/remote MCP servers, with natural-language requests (`ask_mcp`), tool execution, resource reading, prompt templates, structured schema validation, and inline image rendering. |
 
 ---
