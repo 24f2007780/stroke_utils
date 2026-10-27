@@ -1,0 +1,2566 @@
+{
+    "name": "HB02CV stroke atlas viewer",
+    "space": {
+        "dims": [
+            211,
+            377,
+            238
+        ],
+        "spacing": [
+            0.48828125,
+            0.48828125,
+            0.7
+        ],
+        "crop_origin": [
+            174,
+            39,
+            0
+        ],
+        "axes": {
+            "i": "inferior->superior",
+            "j": "anterior->posterior",
+            "k": "left->right"
+        },
+        "note": "reference (ex-vivo) space, 512x512x244 grid cropped"
+    },
+    "volumes": {
+        "gray": {
+            "iv11_DWI": {
+                "file": "iv11_DWI.bin",
+                "lo": 0.0038826596573926504,
+                "hi": 258.52217483520536,
+                "blocks": [
+                    218,
+                    217,
+                    313,
+                    315,
+                    314
+                ]
+            },
+            "iv11_ADC": {
+                "file": "iv11_ADC.bin",
+                "lo": 0.0300023203343153,
+                "hi": 2578.153242187502,
+                "blocks": [
+                    313,
+                    315,
+                    314
+                ]
+            },
+            "iv16_DWI": {
+                "file": "iv16_DWI.bin",
+                "lo": 0.0010480805346742273,
+                "hi": 196.8342742919922,
+                "blocks": [
+                    218,
+                    217,
+                    313,
+                    315,
+                    314
+                ]
+            },
+            "iv16_ADC": {
+                "file": "iv16_ADC.bin",
+                "lo": 0.04211093880236148,
+                "hi": 2592.08642578125,
+                "blocks": [
+                    218,
+                    217,
+                    313,
+                    315,
+                    314
+                ]
+            },
+            "ex_T2": {
+                "file": "ex_T2.bin",
+                "lo": 8.0,
+                "hi": 620.0,
+                "blocks": null
+            },
+            "ex_DWI": {
+                "file": "ex_DWI.bin",
+                "lo": 61.0,
+                "hi": 2644.0,
+                "blocks": null
+            },
+            "ex_T1": {
+                "file": "ex_T1.bin",
+                "lo": 817.0,
+                "hi": 15728.0,
+                "blocks": null
+            },
+            "histo": {
+                "file": "histo.bin",
+                "lo": 0.0,
+                "hi": 176.93503906249975,
+                "blocks": null
+            }
+        },
+        "labels": {
+            "mni": "lab_mni.bin",
+            "art": "lab_art.bin"
+        },
+        "segs": {
+            "file": "segs.bin",
+            "bits": {
+                "iv11_dwi_hyper": 0,
+                "iv11_adc_hypo": 1,
+                "iv16_dwi_hyper": 2,
+                "iv16_adc_hypo": 3,
+                "ex_dwi_hyper": 4,
+                "ex_adc_hypo": 5,
+                "ex_t2_hyper": 6
+            }
+        }
+    },
+    "series": [
+        {
+            "id": "iv16_DWI",
+            "tp": "16dpm",
+            "seq": "DWI",
+            "label": "DWI \u00b7 16 dpm"
+        },
+        {
+            "id": "iv16_ADC",
+            "tp": "16dpm",
+            "seq": "ADC",
+            "label": "ADC \u00b7 16 dpm"
+        },
+        {
+            "id": "iv11_DWI",
+            "tp": "11dpm",
+            "seq": "DWI",
+            "label": "DWI \u00b7 11 dpm"
+        },
+        {
+            "id": "iv11_ADC",
+            "tp": "11dpm",
+            "seq": "ADC",
+            "label": "ADC \u00b7 11 dpm"
+        }
+    ],
+    "backdrops": [
+        {
+            "id": "none",
+            "label": "(series only)"
+        },
+        {
+            "id": "ex_T2",
+            "label": "ex-vivo T2"
+        },
+        {
+            "id": "ex_DWI",
+            "label": "ex-vivo DWI"
+        },
+        {
+            "id": "ex_T1",
+            "label": "ex-vivo T1"
+        },
+        {
+            "id": "histo",
+            "label": "histology (Nissl merge)"
+        }
+    ],
+    "segs": [
+        {
+            "id": "iv16_dwi_hyper",
+            "label": "DWI hyperintensity \u00b7 in-vivo 16 dpm",
+            "color": "#FF4D6D",
+            "tp": "16dpm"
+        },
+        {
+            "id": "iv16_adc_hypo",
+            "label": "ADC hypointensity \u00b7 in-vivo 16 dpm",
+            "color": "#FFC14D",
+            "tp": "16dpm"
+        },
+        {
+            "id": "iv11_dwi_hyper",
+            "label": "DWI hyperintensity \u00b7 in-vivo 11 dpm",
+            "color": "#E8112D",
+            "tp": "11dpm"
+        },
+        {
+            "id": "iv11_adc_hypo",
+            "label": "ADC hypointensity \u00b7 in-vivo 11 dpm",
+            "color": "#FF9500",
+            "tp": "11dpm"
+        },
+        {
+            "id": "ex_dwi_hyper",
+            "label": "DWI hyperintensity \u00b7 ex-vivo",
+            "color": "#00C2D1",
+            "tp": null
+        },
+        {
+            "id": "ex_adc_hypo",
+            "label": "ADC hypointensity \u00b7 ex-vivo",
+            "color": "#7CE0A0",
+            "tp": null
+        },
+        {
+            "id": "ex_t2_hyper",
+            "label": "T2 hyperintensity \u00b7 ex-vivo",
+            "color": "#B38CFF",
+            "tp": null
+        }
+    ],
+    "notes": {
+        "invivo": "in-vivo volumes are the per-block final_data/02_blockspace_mri data pushed into reference space through the block composite transforms (0.48 x 0.48 x 2.2 mm block grid)",
+        "dpm": "dpm = days pre-mortem, so 16 dpm precedes 11 dpm in time",
+        "coverage": "in-vivo ADC 11 dpm and all four in-vivo lesion masks exist for blocks 313/315/314 (left hemisphere) only",
+        "arterial_lr": "the arterial atlas as delivered is mirrored in laterality; the viewer swaps the side words in the names by default"
+    },
+    "blocks": {
+        "218": {
+            "biosample": 218,
+            "block_n": 1,
+            "nslices": 86,
+            "krow": [
+                -0.002513406210952862,
+                0.15249355296728836,
+                -1.441851867151445,
+                297.25474938805803
+            ],
+            "mm_slope": -0.48188159818859383,
+            "mm_int": 165.81996792301524,
+            "sec_min": 1,
+            "sec_max": 2049,
+            "mm_at_secmin": 165.82,
+            "gid_at_secmin": 8291,
+            "mm_at_secmax": 124.86,
+            "gid_at_secmax": 6243
+        },
+        "217": {
+            "biosample": 217,
+            "block_n": 2,
+            "nslices": 75,
+            "krow": [
+                -0.02502009570121074,
+                0.16306353016788824,
+                -1.4390305741415572,
+                220.51290066836802
+            ],
+            "mm_slope": -0.48756648648648754,
+            "mm_int": 124.83996000000006,
+            "sec_min": 1,
+            "sec_max": 1805,
+            "mm_at_secmin": 124.84,
+            "gid_at_secmin": 6242,
+            "mm_at_secmax": 88.76,
+            "gid_at_secmax": 4438
+        },
+        "313": {
+            "biosample": 313,
+            "block_n": 3,
+            "nslices": 79,
+            "krow": [
+                -0.02740496942754672,
+                -0.09512333124088233,
+                -1.4514131297914672,
+                189.98135791496705
+            ],
+            "mm_slope": -0.48358928919182137,
+            "mm_int": 88.7399822784811,
+            "sec_min": 1,
+            "sec_max": 1887,
+            "mm_at_secmin": 88.74,
+            "gid_at_secmin": 4437,
+            "mm_at_secmax": 51.02,
+            "gid_at_secmax": 2551
+        },
+        "315": {
+            "biosample": 315,
+            "block_n": 4,
+            "nslices": 43,
+            "krow": [
+                0.08117444982439352,
+                0.016383613520784806,
+                1.453494306610261,
+                -76.11044214717371
+            ],
+            "mm_slope": 0.4909468438538204,
+            "mm_int": 30.38011627906978,
+            "sec_min": 1,
+            "sec_max": 1032,
+            "mm_at_secmin": 30.38,
+            "gid_at_secmin": 1519,
+            "mm_at_secmax": 51.0,
+            "gid_at_secmax": 2550
+        },
+        "314": {
+            "biosample": 314,
+            "block_n": 5,
+            "nslices": 64,
+            "krow": [
+                -0.039430156609069275,
+                -0.06901869191867577,
+                -1.4538755638565095,
+                102.91504420183331
+            ],
+            "mm_slope": -0.4815858058608056,
+            "mm_int": 30.35995288461538,
+            "sec_min": 1,
+            "sec_max": 1518,
+            "mm_at_secmin": 30.36,
+            "gid_at_secmin": 1518,
+            "mm_at_secmax": 0.02,
+            "gid_at_secmax": 1
+        }
+    },
+    "block_desc": {
+        "218": "right lateral",
+        "217": "right medial",
+        "313": "left medial",
+        "315": "left mid",
+        "314": "left lateral"
+    },
+    "atlas": {
+        "mni": {
+            "1": [
+                "anterior olfactory nucleus",
+                170,
+                157,
+                198
+            ],
+            "2": [
+                "piriform cortex",
+                170,
+                157,
+                198
+            ],
+            "3": [
+                "frontal agranular insular cortex (area FI)",
+                193,
+                166,
+                143
+            ],
+            "4": [
+                "temporal agranular insular cortex (area TI)",
+                181,
+                150,
+                127
+            ],
+            "5": [
+                "head of caudate",
+                145,
+                160,
+                110
+            ],
+            "6": [
+                "body of caudate",
+                153,
+                166,
+                119
+            ],
+            "7": [
+                "tail of caudate",
+                145,
+                160,
+                110
+            ],
+            "8": [
+                "putamen",
+                168,
+                180,
+                133
+            ],
+            "9": [
+                "nucleus accumbens",
+                145,
+                160,
+                110
+            ],
+            "10": [
+                "external segment of globus pallidus",
+                215,
+                224,
+                191
+            ],
+            "11": [
+                "internal segment of globus pallidus",
+                208,
+                217,
+                178
+            ],
+            "12": [
+                "claustrum",
+                170,
+                219,
+                206
+            ],
+            "13": [
+                "basal forebrain",
+                221,
+                221,
+                175
+            ],
+            "14": [
+                "septal nuclei",
+                202,
+                202,
+                146
+            ],
+            "15": [
+                "amygdaloid complex",
+                201,
+                226,
+                177
+            ],
+            "16": [
+                "anterior amygdaloid area",
+                192,
+                221,
+                157
+            ],
+            "17": [
+                "central nuclear group",
+                175,
+                213,
+                138
+            ],
+            "18": [
+                "lateral nucleus",
+                166,
+                209,
+                122
+            ],
+            "19": [
+                "basolateral nucleus (basal nucleus)",
+                137,
+                186,
+                70
+            ],
+            "20": [
+                "basomedial nucleus (accessory basal nucleus)",
+                156,
+                204,
+                102
+            ],
+            "21": [
+                "anterior cortical nucleus",
+                137,
+                186,
+                70
+            ],
+            "22": [
+                "posterior cortical nucleus",
+                146,
+                200,
+                81
+            ],
+            "23": [
+                "medial nucleus",
+                156,
+                204,
+                102
+            ],
+            "24": [
+                "amygdalohippocampal area",
+                137,
+                186,
+                70
+            ],
+            "25": [
+                "bed nucleus of stria terminalis",
+                169,
+                215,
+                174
+            ],
+            "26": [
+                "thalamus",
+                228,
+                204,
+                227
+            ],
+            "27": [
+                "anterior nuclear complex of thalamus",
+                191,
+                137,
+                188
+            ],
+            "28": [
+                "lateral dorsal nucleus of thalamus",
+                182,
+                123,
+                180
+            ],
+            "29": [
+                "mediodorsal nucleus of thalamus",
+                176,
+                103,
+                169
+            ],
+            "30": [
+                "reuniens nucleus (medioventral nucleus) of thalamus",
+                149,
+                73,
+                138
+            ],
+            "31": [
+                "lateral posterior nucleus of thalamus",
+                176,
+                103,
+                169
+            ],
+            "32": [
+                "pulvinar of thalamus",
+                176,
+                103,
+                169
+            ],
+            "33": [
+                "ventral anterior nucleus of thalamus",
+                165,
+                84,
+                160
+            ],
+            "34": [
+                "ventral lateral nucleus of thalamus",
+                176,
+                103,
+                169
+            ],
+            "35": [
+                "ventral posterior lateral nucleus",
+                158,
+                76,
+                148
+            ],
+            "36": [
+                "ventral posterior medial nucleus",
+                158,
+                76,
+                148
+            ],
+            "37": [
+                "dorsal lateral geniculate nucleus",
+                140,
+                70,
+                133
+            ],
+            "38": [
+                "medial geniculate nuclei",
+                182,
+                123,
+                180
+            ],
+            "39": [
+                "centromedian nucleus of thalamus",
+                182,
+                123,
+                180
+            ],
+            "40": [
+                "parafascicular nucleus of thalamus",
+                176,
+                103,
+                169
+            ],
+            "41": [
+                "habenular nuclei",
+                182,
+                123,
+                180
+            ],
+            "42": [
+                "pineal body",
+                119,
+                54,
+                113
+            ],
+            "43": [
+                "zona incerta",
+                176,
+                103,
+                169
+            ],
+            "44": [
+                "subthalamic nucleus",
+                183,
+                153,
+                196
+            ],
+            "45": [
+                "hypothalamus",
+                228,
+                201,
+                217
+            ],
+            "46": [
+                "preoptic region of HTH",
+                219,
+                171,
+                200
+            ],
+            "47": [
+                "supraoptic region of HTH",
+                207,
+                151,
+                185
+            ],
+            "48": [
+                "tuberal region of HTH",
+                219,
+                171,
+                200
+            ],
+            "49": [
+                "mammillary region of HTH",
+                196,
+                132,
+                169
+            ],
+            "50": [
+                "white matter of forebrain",
+                242,
+                241,
+                240
+            ],
+            "51": [
+                "anterior commissure",
+                242,
+                241,
+                240
+            ],
+            "52": [
+                "corpus callosum",
+                242,
+                241,
+                240
+            ],
+            "53": [
+                "fornix",
+                242,
+                241,
+                240
+            ],
+            "54": [
+                "mammillothalamic tract",
+                242,
+                241,
+                240
+            ],
+            "55": [
+                "optic tract",
+                242,
+                241,
+                240
+            ],
+            "56": [
+                "anterior horn of lateral ventricle",
+                35,
+                31,
+                32
+            ],
+            "57": [
+                "body of lateral ventricle",
+                35,
+                31,
+                32
+            ],
+            "58": [
+                "posterior horn of lateral ventricle",
+                35,
+                31,
+                32
+            ],
+            "59": [
+                "inferior horn of lateral ventricle",
+                35,
+                31,
+                32
+            ],
+            "60": [
+                "third ventricle",
+                35,
+                31,
+                32
+            ],
+            "61": [
+                "olfactory tract",
+                242,
+                241,
+                240
+            ],
+            "62": [
+                "precentral gyrus",
+                237,
+                207,
+                55
+            ],
+            "63": [
+                "superior frontal gyrus",
+                212,
+                178,
+                53
+            ],
+            "64": [
+                "middle frontal gyrus",
+                212,
+                178,
+                53
+            ],
+            "65": [
+                "inferior frontal gyrus, triangular part",
+                194,
+                163,
+                53
+            ],
+            "66": [
+                "inferior frontal gyrus, opercular part",
+                194,
+                163,
+                53
+            ],
+            "67": [
+                "gyrus rectus (straight gyrus)",
+                184,
+                162,
+                109
+            ],
+            "68": [
+                "medial orbital gyrus",
+                202,
+                183,
+                129
+            ],
+            "69": [
+                "anterior intermediate orbital gyrus",
+                202,
+                183,
+                129
+            ],
+            "70": [
+                "posterior intermediate orbital gyrus",
+                202,
+                183,
+                129
+            ],
+            "71": [
+                "lateral orbital gyrus",
+                171,
+                145,
+                88
+            ],
+            "72": [
+                "paracentral lobule, rostral part",
+                237,
+                207,
+                55
+            ],
+            "73": [
+                "frontal operculum",
+                194,
+                163,
+                53
+            ],
+            "74": [
+                "postcentral gyrus",
+                236,
+                129,
+                59
+            ],
+            "75": [
+                "supraparietal lobule",
+                228,
+                156,
+                51
+            ],
+            "76": [
+                "supramarginal gyrus",
+                211,
+                142,
+                50
+            ],
+            "77": [
+                "angular gyrus",
+                211,
+                142,
+                50
+            ],
+            "78": [
+                "precuneus",
+                228,
+                156,
+                51
+            ],
+            "79": [
+                "paracentral lobule, caudal part",
+                228,
+                156,
+                51
+            ],
+            "80": [
+                "superior temporal gyrus",
+                214,
+                112,
+                160
+            ],
+            "81": [
+                "middle temporal gyrus",
+                213,
+                92,
+                146
+            ],
+            "82": [
+                "inferior temporal gyrus",
+                213,
+                92,
+                146
+            ],
+            "83": [
+                "occipitotemporal (fusiform) gyrus, temporal part",
+                213,
+                92,
+                146
+            ],
+            "84": [
+                "transverse temporal gyrus (Heschl's gyrus)",
+                214,
+                112,
+                160
+            ],
+            "85": [
+                "planum temporale",
+                214,
+                112,
+                160
+            ],
+            "86": [
+                "temporal pole",
+                200,
+                83,
+                139
+            ],
+            "87": [
+                "planum polare",
+                214,
+                112,
+                160
+            ],
+            "88": [
+                "occipital pole",
+                193,
+                51,
+                49
+            ],
+            "89": [
+                "cuneus",
+                193,
+                51,
+                49
+            ],
+            "90": [
+                "lingual gyrus",
+                193,
+                51,
+                49
+            ],
+            "91": [
+                "occipitotemporal (fusiform) gyrus, occipital part",
+                209,
+                77,
+                70
+            ],
+            "92": [
+                "inferior occipital gyrus",
+                209,
+                77,
+                70
+            ],
+            "93": [
+                "superior occipital gyrus",
+                209,
+                77,
+                70
+            ],
+            "94": [
+                "cingulate gyrus, rostral (anterior) part",
+                226,
+                104,
+                128
+            ],
+            "95": [
+                "cingulate gyrus, caudal (posterior) part",
+                223,
+                79,
+                114
+            ],
+            "96": [
+                "cingulo-parahippocampal isthmus",
+                196,
+                173,
+                154
+            ],
+            "97": [
+                "subcallosal gyrus (parolfactory gyrus)",
+                226,
+                104,
+                128
+            ],
+            "98": [
+                "anterior parahippocampal gyrus",
+                210,
+                191,
+                178
+            ],
+            "99": [
+                "posterior parahippocampal gyrus",
+                193,
+                81,
+                132
+            ],
+            "100": [
+                "ambiens gyrus",
+                210,
+                191,
+                178
+            ],
+            "101": [
+                "head of hippocampus",
+                170,
+                157,
+                198
+            ],
+            "102": [
+                "body of hippocampus",
+                170,
+                157,
+                198
+            ],
+            "103": [
+                "tail of hippocampus",
+                170,
+                157,
+                198
+            ],
+            "104": [
+                "long insular gyri",
+                196,
+                85,
+                57
+            ],
+            "105": [
+                "short insular gyri",
+                209,
+                97,
+                70
+            ],
+            "106": [
+                "limen insula",
+                208,
+                208,
+                209
+            ],
+            "107": [
+                "pretectal region",
+                160,
+                199,
+                213
+            ],
+            "108": [
+                "midbrain tegmentum",
+                82,
+                152,
+                174
+            ],
+            "109": [
+                "red nucleus",
+                108,
+                169,
+                191
+            ],
+            "110": [
+                "substantia nigra",
+                108,
+                169,
+                191
+            ],
+            "111": [
+                "superior colliculus",
+                126,
+                179,
+                201
+            ],
+            "112": [
+                "inferior colliculus",
+                126,
+                179,
+                201
+            ],
+            "113": [
+                "cerebral peduncle (crus cerebri)",
+                242,
+                241,
+                240
+            ],
+            "114": [
+                "fourth ventricle",
+                35,
+                31,
+                32
+            ],
+            "115": [
+                "midline nuclear complex",
+                165,
+                84,
+                160
+            ],
+            "116": [
+                "lateral olfactory gyrus",
+                170,
+                157,
+                198
+            ],
+            "117": [
+                "parietal operculum",
+                232,
+                175,
+                102
+            ],
+            "118": [
+                "posteroventral putamen",
+                128,
+                174,
+                128
+            ],
+            "119": [
+                "paracingulate gyrus",
+                241,
+                214,
+                145
+            ],
+            "120": [
+                "rostral gyrus",
+                177,
+                122,
+                101
+            ],
+            "121": [
+                "frontomarginal gyrus",
+                111,
+                184,
+                210
+            ],
+            "122": [
+                "frontal pole",
+                216,
+                101,
+                79
+            ],
+            "123": [
+                "perirhinal gyrus ( rostral part of FuGt)",
+                221,
+                130,
+                101
+            ],
+            "124": [
+                "optic radiation",
+                144,
+                238,
+                144
+            ],
+            "125": [
+                "atrium of lateral ventricle",
+                192,
+                104,
+                88
+            ]
+        },
+        "art": {
+            "1": [
+                "anterior cerebral artery left",
+                230,
+                25,
+                75,
+                "Anterior",
+                "ACAL"
+            ],
+            "2": [
+                "anterior cerebral artery right",
+                60,
+                180,
+                75,
+                "Anterior",
+                "ACAR"
+            ],
+            "3": [
+                "medial lenticulostriate left",
+                255,
+                225,
+                25,
+                "Anterior",
+                "ACAL"
+            ],
+            "4": [
+                "medial lenticulostriate right",
+                0,
+                130,
+                200,
+                "Anterior",
+                "ACAR"
+            ],
+            "5": [
+                "lateral lenticulostriate left",
+                245,
+                130,
+                48,
+                "Anterior",
+                "MCAL"
+            ],
+            "6": [
+                "lateral lenticulostriate right",
+                145,
+                30,
+                180,
+                "Anterior",
+                "MCAR"
+            ],
+            "7": [
+                "frontal pars of middle cerebral artery left",
+                70,
+                240,
+                240,
+                "Anterior",
+                "MCAL"
+            ],
+            "8": [
+                "frontal pars of middle cerebral artery right",
+                240,
+                50,
+                230,
+                "Anterior",
+                "MCAR"
+            ],
+            "9": [
+                "parietal pars of middle cerebral artery left",
+                210,
+                245,
+                60,
+                "Anterior",
+                "MCAL"
+            ],
+            "10": [
+                "parietal pars of middle cerebral artery right",
+                250,
+                190,
+                212,
+                "Anterior",
+                "MCAR"
+            ],
+            "11": [
+                "temporal pars of middle cerebral artery left",
+                0,
+                128,
+                128,
+                "Anterior",
+                "MCAL"
+            ],
+            "12": [
+                "temporal pars of middle cerebral artery right",
+                220,
+                190,
+                255,
+                "Anterior",
+                "MCAR"
+            ],
+            "13": [
+                "occipital pars of middle cerebral artery left",
+                170,
+                110,
+                40,
+                "Anterior",
+                "MCAL"
+            ],
+            "14": [
+                "occipital pars of middle cerebral artery right",
+                255,
+                250,
+                200,
+                "Anterior",
+                "MCAR"
+            ],
+            "15": [
+                "insular pars of middle cerebral artery left",
+                128,
+                0,
+                0,
+                "Anterior",
+                "MCAL"
+            ],
+            "16": [
+                "insular pars of middle cerebral artery right",
+                170,
+                255,
+                195,
+                "Anterior",
+                "MCAR"
+            ],
+            "17": [
+                "temporal pars of posterior cerebral artery left",
+                128,
+                128,
+                0,
+                "Posterior",
+                "PCAL"
+            ],
+            "18": [
+                "temporal pars of posterior cerebral artery right",
+                255,
+                215,
+                180,
+                "Posterior",
+                "PCAR"
+            ],
+            "19": [
+                "occipital pars of posterior cerebral artery left",
+                0,
+                0,
+                128,
+                "Posterior",
+                "PCAL"
+            ],
+            "20": [
+                "occipital pars of posterior cerebral artery right",
+                128,
+                128,
+                128,
+                "Posterior",
+                "PCAR"
+            ],
+            "21": [
+                "posterior choroidal and thalamoperfurators left",
+                255,
+                255,
+                255,
+                "Posterior",
+                "PCAL"
+            ],
+            "22": [
+                "posterior choroidal and thalamoperfurators right",
+                255,
+                105,
+                180,
+                "Posterior",
+                "PCAR"
+            ],
+            "23": [
+                "anterior choroidal and thalamoperfurators left",
+                46,
+                139,
+                87,
+                "Posterior",
+                "PCAL"
+            ],
+            "24": [
+                "anterior choroidal and thalamoperfurators right",
+                255,
+                140,
+                0,
+                "Posterior",
+                "PCAR"
+            ],
+            "25": [
+                "basilar left",
+                100,
+                149,
+                237,
+                "Posterior",
+                "VBL"
+            ],
+            "26": [
+                "basilar right",
+                199,
+                21,
+                133,
+                "Posterior",
+                "VBR"
+            ],
+            "27": [
+                "superior cerebellar left",
+                32,
+                178,
+                170,
+                "Posterior",
+                "VBL"
+            ],
+            "28": [
+                "superior cerebellar right",
+                218,
+                165,
+                32,
+                "Posterior",
+                "VBR"
+            ],
+            "29": [
+                "inferior cerebellar left",
+                72,
+                61,
+                139,
+                "Posterior",
+                "VBL"
+            ],
+            "30": [
+                "inferior cerebellar right",
+                205,
+                92,
+                92,
+                "Posterior",
+                "VBR"
+            ],
+            "31": [
+                "lateral ventricle left",
+                143,
+                188,
+                143,
+                "Ventricle",
+                "LVL"
+            ],
+            "32": [
+                "lateral ventricle right",
+                186,
+                85,
+                211,
+                "Ventricle",
+                "LVR"
+            ]
+        }
+    },
+    "he_pairs": [
+        {
+            "b": 313,
+            "sec": 386,
+            "mm": 81.04,
+            "k": 16.0,
+            "qc": "PASS",
+            "area": 51.1488
+        },
+        {
+            "b": 313,
+            "sec": 392,
+            "mm": 80.92,
+            "k": 16.0,
+            "qc": "PASS",
+            "area": 40.7808
+        },
+        {
+            "b": 313,
+            "sec": 398,
+            "mm": 80.8,
+            "k": 16.0,
+            "qc": "PASS",
+            "area": 37.3248
+        },
+        {
+            "b": 313,
+            "sec": 410,
+            "mm": 80.56,
+            "k": 17.0,
+            "qc": "PASS",
+            "area": 42.1632
+        },
+        {
+            "b": 313,
+            "sec": 416,
+            "mm": 80.44,
+            "k": 17.0,
+            "qc": "PASS",
+            "area": 40.0896
+        },
+        {
+            "b": 313,
+            "sec": 440,
+            "mm": 79.96000000000001,
+            "k": 18.0,
+            "qc": "PASS",
+            "area": 36.6336
+        },
+        {
+            "b": 313,
+            "sec": 470,
+            "mm": 79.36,
+            "k": 19.0,
+            "qc": "PASS",
+            "area": 39.168
+        },
+        {
+            "b": 313,
+            "sec": 476,
+            "mm": 79.24,
+            "k": 20.0,
+            "qc": "PASS",
+            "area": 63.36
+        },
+        {
+            "b": 313,
+            "sec": 500,
+            "mm": 78.76,
+            "k": 21.0,
+            "qc": "PASS",
+            "area": 88.704
+        },
+        {
+            "b": 313,
+            "sec": 512,
+            "mm": 78.52,
+            "k": 21.0,
+            "qc": "PASS",
+            "area": 84.32639999999999
+        },
+        {
+            "b": 313,
+            "sec": 530,
+            "mm": 78.16,
+            "k": 22.0,
+            "qc": "PASS",
+            "area": 79.94879999999999
+        },
+        {
+            "b": 313,
+            "sec": 560,
+            "mm": 77.56,
+            "k": 23.0,
+            "qc": "PASS",
+            "area": 101.376
+        },
+        {
+            "b": 313,
+            "sec": 566,
+            "mm": 77.44,
+            "k": 23.0,
+            "qc": "PASS",
+            "area": 106.9056
+        },
+        {
+            "b": 313,
+            "sec": 572,
+            "mm": 77.32000000000001,
+            "k": 24.0,
+            "qc": "PASS",
+            "area": 86.39999999999999
+        },
+        {
+            "b": 313,
+            "sec": 608,
+            "mm": 76.60000000000001,
+            "k": 25.0,
+            "qc": "PASS",
+            "area": 168.42239999999998
+        },
+        {
+            "b": 313,
+            "sec": 614,
+            "mm": 76.48,
+            "k": 25.0,
+            "qc": "PASS",
+            "area": 170.496
+        },
+        {
+            "b": 313,
+            "sec": 626,
+            "mm": 76.24,
+            "k": 26.0,
+            "qc": "PASS",
+            "area": 181.7856
+        },
+        {
+            "b": 313,
+            "sec": 632,
+            "mm": 76.12,
+            "k": 26.0,
+            "qc": "PASS",
+            "area": 183.168
+        },
+        {
+            "b": 313,
+            "sec": 656,
+            "mm": 75.64,
+            "k": 27.0,
+            "qc": "PASS",
+            "area": 237.312
+        },
+        {
+            "b": 313,
+            "sec": 680,
+            "mm": 75.16,
+            "k": 28.0,
+            "qc": "PASS",
+            "area": 227.1744
+        },
+        {
+            "b": 313,
+            "sec": 692,
+            "mm": 74.92,
+            "k": 29.0,
+            "qc": "PASS",
+            "area": 252.9792
+        },
+        {
+            "b": 313,
+            "sec": 716,
+            "mm": 74.44,
+            "k": 30.0,
+            "qc": "PASS",
+            "area": 532.6848
+        },
+        {
+            "b": 313,
+            "sec": 728,
+            "mm": 74.2,
+            "k": 30.0,
+            "qc": "PASS",
+            "area": 480.8448
+        },
+        {
+            "b": 313,
+            "sec": 758,
+            "mm": 73.60000000000001,
+            "k": 31.0,
+            "qc": "PASS",
+            "area": 396.9792
+        },
+        {
+            "b": 313,
+            "sec": 764,
+            "mm": 73.48,
+            "k": 32.0,
+            "qc": "PASS",
+            "area": 477.1584
+        },
+        {
+            "b": 313,
+            "sec": 782,
+            "mm": 73.12,
+            "k": 32.0,
+            "qc": "PASS",
+            "area": 203.4432
+        },
+        {
+            "b": 313,
+            "sec": 788,
+            "mm": 73.0,
+            "k": 33.0,
+            "qc": "PASS",
+            "area": 348.1344
+        },
+        {
+            "b": 313,
+            "sec": 830,
+            "mm": 72.16,
+            "k": 34.0,
+            "qc": "PASS",
+            "area": 331.776
+        },
+        {
+            "b": 313,
+            "sec": 842,
+            "mm": 71.92,
+            "k": 35.0,
+            "qc": "PASS",
+            "area": 280.6272
+        },
+        {
+            "b": 313,
+            "sec": 854,
+            "mm": 71.68,
+            "k": 35.0,
+            "qc": "PASS",
+            "area": 226.944
+        },
+        {
+            "b": 313,
+            "sec": 878,
+            "mm": 71.2,
+            "k": 36.0,
+            "qc": "PASS",
+            "area": 358.272
+        },
+        {
+            "b": 313,
+            "sec": 884,
+            "mm": 71.08,
+            "k": 37.0,
+            "qc": "PASS",
+            "area": 694.8864
+        },
+        {
+            "b": 313,
+            "sec": 890,
+            "mm": 70.96000000000001,
+            "k": 37.0,
+            "qc": "PASS",
+            "area": 703.6415999999999
+        },
+        {
+            "b": 313,
+            "sec": 902,
+            "mm": 70.72,
+            "k": 37.0,
+            "qc": "PASS",
+            "area": 740.5056
+        },
+        {
+            "b": 313,
+            "sec": 938,
+            "mm": 70.0,
+            "k": 39.0,
+            "qc": "PASS",
+            "area": 825.9839999999999
+        },
+        {
+            "b": 313,
+            "sec": 944,
+            "mm": 69.88,
+            "k": 39.0,
+            "qc": "PASS",
+            "area": 834.2784
+        },
+        {
+            "b": 313,
+            "sec": 956,
+            "mm": 69.64,
+            "k": 39.0,
+            "qc": "PASS",
+            "area": 798.7968
+        },
+        {
+            "b": 313,
+            "sec": 962,
+            "mm": 69.52,
+            "k": 40.0,
+            "qc": "PASS",
+            "area": 783.1296
+        },
+        {
+            "b": 313,
+            "sec": 968,
+            "mm": 69.4,
+            "k": 40.0,
+            "qc": "PASS",
+            "area": 456.4224
+        },
+        {
+            "b": 313,
+            "sec": 974,
+            "mm": 69.28,
+            "k": 40.0,
+            "qc": "PASS",
+            "area": 829.2096
+        },
+        {
+            "b": 313,
+            "sec": 1004,
+            "mm": 68.68,
+            "k": 41.0,
+            "qc": "PASS",
+            "area": 787.968
+        },
+        {
+            "b": 313,
+            "sec": 1028,
+            "mm": 68.2,
+            "k": 42.0,
+            "qc": "FAIL",
+            "area": 1061.6832
+        },
+        {
+            "b": 313,
+            "sec": 1034,
+            "mm": 68.08,
+            "k": 43.0,
+            "qc": "PASS",
+            "area": 1234.7136
+        },
+        {
+            "b": 313,
+            "sec": 1052,
+            "mm": 67.72,
+            "k": 43.0,
+            "qc": "PASS",
+            "area": 818.1504
+        },
+        {
+            "b": 313,
+            "sec": 1058,
+            "mm": 67.6,
+            "k": 44.0,
+            "qc": "PASS",
+            "area": 1078.9632
+        },
+        {
+            "b": 313,
+            "sec": 1070,
+            "mm": 67.36,
+            "k": 44.0,
+            "qc": "PASS",
+            "area": 1199.6928
+        },
+        {
+            "b": 313,
+            "sec": 1082,
+            "mm": 67.12,
+            "k": 45.0,
+            "qc": "PASS",
+            "area": 1124.1216
+        },
+        {
+            "b": 313,
+            "sec": 1094,
+            "mm": 66.88,
+            "k": 45.0,
+            "qc": "PASS",
+            "area": 1212.1344
+        },
+        {
+            "b": 313,
+            "sec": 1118,
+            "mm": 66.4,
+            "k": 46.0,
+            "qc": "PASS",
+            "area": 1649.664
+        },
+        {
+            "b": 313,
+            "sec": 1130,
+            "mm": 66.16,
+            "k": 47.0,
+            "qc": "PASS",
+            "area": 844.4159999999999
+        },
+        {
+            "b": 313,
+            "sec": 1142,
+            "mm": 65.92,
+            "k": 47.0,
+            "qc": "PASS",
+            "area": 1815.7824
+        },
+        {
+            "b": 313,
+            "sec": 1148,
+            "mm": 65.8,
+            "k": 47.0,
+            "qc": "PASS",
+            "area": 1349.6832
+        },
+        {
+            "b": 313,
+            "sec": 1166,
+            "mm": 65.44,
+            "k": 48.0,
+            "qc": "PASS",
+            "area": 1683.5328
+        },
+        {
+            "b": 313,
+            "sec": 1190,
+            "mm": 64.96000000000001,
+            "k": 49.0,
+            "qc": "PASS",
+            "area": 1624.0896
+        },
+        {
+            "b": 313,
+            "sec": 1202,
+            "mm": 64.72,
+            "k": 50.0,
+            "qc": "PASS",
+            "area": 667.008
+        },
+        {
+            "b": 313,
+            "sec": 1208,
+            "mm": 64.6,
+            "k": 50.0,
+            "qc": "PASS",
+            "area": 1853.3376
+        },
+        {
+            "b": 313,
+            "sec": 1244,
+            "mm": 63.88,
+            "k": 51.0,
+            "qc": "PASS",
+            "area": 1998.2592
+        },
+        {
+            "b": 313,
+            "sec": 1268,
+            "mm": 63.4,
+            "k": 52.0,
+            "qc": "PASS",
+            "area": 1973.376
+        },
+        {
+            "b": 313,
+            "sec": 1304,
+            "mm": 62.68,
+            "k": 54.0,
+            "qc": "PASS",
+            "area": 2112.3072
+        },
+        {
+            "b": 313,
+            "sec": 1322,
+            "mm": 62.32,
+            "k": 55.0,
+            "qc": "PASS",
+            "area": 1172.9664
+        },
+        {
+            "b": 313,
+            "sec": 1328,
+            "mm": 62.2,
+            "k": 55.0,
+            "qc": "PASS",
+            "area": 1234.4832
+        },
+        {
+            "b": 313,
+            "sec": 1370,
+            "mm": 61.36,
+            "k": 57.0,
+            "qc": "PASS",
+            "area": 2050.56
+        },
+        {
+            "b": 313,
+            "sec": 1376,
+            "mm": 61.24,
+            "k": 57.0,
+            "qc": "PASS",
+            "area": 2036.5056
+        },
+        {
+            "b": 313,
+            "sec": 1400,
+            "mm": 60.76,
+            "k": 58.0,
+            "qc": "PASS",
+            "area": 1598.0544
+        },
+        {
+            "b": 313,
+            "sec": 1406,
+            "mm": 60.64,
+            "k": 58.0,
+            "qc": "PASS",
+            "area": 2070.6048
+        },
+        {
+            "b": 313,
+            "sec": 1418,
+            "mm": 60.4,
+            "k": 59.0,
+            "qc": "PASS",
+            "area": 2069.4528
+        },
+        {
+            "b": 313,
+            "sec": 1424,
+            "mm": 60.28,
+            "k": 59.0,
+            "qc": "PASS",
+            "area": 2111.3856
+        },
+        {
+            "b": 313,
+            "sec": 1448,
+            "mm": 59.8,
+            "k": 60.0,
+            "qc": "PASS",
+            "area": 1818.3168
+        },
+        {
+            "b": 313,
+            "sec": 1466,
+            "mm": 59.44,
+            "k": 61.0,
+            "qc": "PASS",
+            "area": 2227.2768
+        },
+        {
+            "b": 313,
+            "sec": 1472,
+            "mm": 59.32,
+            "k": 61.0,
+            "qc": "PASS",
+            "area": 1867.392
+        },
+        {
+            "b": 313,
+            "sec": 1484,
+            "mm": 59.08,
+            "k": 61.0,
+            "qc": "PASS",
+            "area": 2091.1104
+        },
+        {
+            "b": 313,
+            "sec": 1514,
+            "mm": 58.48,
+            "k": 63.0,
+            "qc": "PASS",
+            "area": 2305.3824
+        },
+        {
+            "b": 313,
+            "sec": 1538,
+            "mm": 58.0,
+            "k": 64.0,
+            "qc": "PASS",
+            "area": 1840.896
+        },
+        {
+            "b": 313,
+            "sec": 1580,
+            "mm": 57.16,
+            "k": 65.0,
+            "qc": "PASS",
+            "area": 2441.3184
+        },
+        {
+            "b": 313,
+            "sec": 1586,
+            "mm": 57.04,
+            "k": 66.0,
+            "qc": "PASS",
+            "area": 2351.6928
+        },
+        {
+            "b": 313,
+            "sec": 1592,
+            "mm": 56.92,
+            "k": 66.0,
+            "qc": "PASS",
+            "area": 2356.7616
+        },
+        {
+            "b": 313,
+            "sec": 1700,
+            "mm": 54.76,
+            "k": 70.0,
+            "qc": "PASS",
+            "area": 989.1072
+        },
+        {
+            "b": 314,
+            "sec": 182,
+            "mm": 26.74,
+            "k": 8.0,
+            "qc": "FAIL",
+            "area": 440.064
+        },
+        {
+            "b": 314,
+            "sec": 284,
+            "mm": 24.7,
+            "k": 12.0,
+            "qc": "PASS",
+            "area": 1217.8944
+        },
+        {
+            "b": 314,
+            "sec": 368,
+            "mm": 23.02,
+            "k": 15.0,
+            "qc": "PASS",
+            "area": 1535.616
+        },
+        {
+            "b": 314,
+            "sec": 380,
+            "mm": 22.78,
+            "k": 16.0,
+            "qc": "PASS",
+            "area": 1715.0976
+        },
+        {
+            "b": 314,
+            "sec": 422,
+            "mm": 21.94,
+            "k": 17.0,
+            "qc": "PASS",
+            "area": 1668.3264
+        },
+        {
+            "b": 314,
+            "sec": 434,
+            "mm": 21.7,
+            "k": 18.0,
+            "qc": "PASS",
+            "area": 1714.176
+        },
+        {
+            "b": 314,
+            "sec": 440,
+            "mm": 21.58,
+            "k": 18.0,
+            "qc": "PASS",
+            "area": 1801.2672
+        },
+        {
+            "b": 314,
+            "sec": 452,
+            "mm": 21.34,
+            "k": 19.0,
+            "qc": "PASS",
+            "area": 1691.5968
+        },
+        {
+            "b": 314,
+            "sec": 476,
+            "mm": 20.86,
+            "k": 20.0,
+            "qc": "PASS",
+            "area": 1437.9264
+        },
+        {
+            "b": 314,
+            "sec": 482,
+            "mm": 20.74,
+            "k": 20.0,
+            "qc": "PASS",
+            "area": 1770.1632
+        },
+        {
+            "b": 314,
+            "sec": 488,
+            "mm": 20.62,
+            "k": 20.0,
+            "qc": "PASS",
+            "area": 1299.456
+        },
+        {
+            "b": 314,
+            "sec": 500,
+            "mm": 20.38,
+            "k": 21.0,
+            "qc": "PASS",
+            "area": 1712.7936
+        },
+        {
+            "b": 314,
+            "sec": 518,
+            "mm": 20.02,
+            "k": 21.0,
+            "qc": "PASS",
+            "area": 1643.4432
+        },
+        {
+            "b": 314,
+            "sec": 548,
+            "mm": 19.42,
+            "k": 23.0,
+            "qc": "PASS",
+            "area": 1503.1296
+        },
+        {
+            "b": 314,
+            "sec": 566,
+            "mm": 19.06,
+            "k": 23.0,
+            "qc": "PASS",
+            "area": 1491.1488
+        },
+        {
+            "b": 314,
+            "sec": 572,
+            "mm": 18.94,
+            "k": 24.0,
+            "qc": "PASS",
+            "area": 1523.4048
+        },
+        {
+            "b": 314,
+            "sec": 608,
+            "mm": 18.22,
+            "k": 25.0,
+            "qc": "PASS",
+            "area": 1242.0864
+        },
+        {
+            "b": 314,
+            "sec": 614,
+            "mm": 18.1,
+            "k": 25.0,
+            "qc": "PASS",
+            "area": 1310.7456
+        },
+        {
+            "b": 314,
+            "sec": 626,
+            "mm": 17.86,
+            "k": 26.0,
+            "qc": "PASS",
+            "area": 1238.8608
+        },
+        {
+            "b": 314,
+            "sec": 632,
+            "mm": 17.74,
+            "k": 26.0,
+            "qc": "PASS",
+            "area": 1034.2656
+        },
+        {
+            "b": 314,
+            "sec": 638,
+            "mm": 17.62,
+            "k": 26.0,
+            "qc": "PASS",
+            "area": 1072.512
+        },
+        {
+            "b": 314,
+            "sec": 668,
+            "mm": 17.02,
+            "k": 28.0,
+            "qc": "PASS",
+            "area": 1105.4592
+        },
+        {
+            "b": 314,
+            "sec": 680,
+            "mm": 16.78,
+            "k": 28.0,
+            "qc": "PASS",
+            "area": 1278.2592
+        },
+        {
+            "b": 314,
+            "sec": 698,
+            "mm": 16.42,
+            "k": 29.0,
+            "qc": "PASS",
+            "area": 1194.3936
+        },
+        {
+            "b": 314,
+            "sec": 710,
+            "mm": 16.18,
+            "k": 29.0,
+            "qc": "PASS",
+            "area": 1038.6432
+        },
+        {
+            "b": 314,
+            "sec": 746,
+            "mm": 15.46,
+            "k": 31.0,
+            "qc": "PASS",
+            "area": 1211.2128
+        },
+        {
+            "b": 314,
+            "sec": 758,
+            "mm": 15.22,
+            "k": 31.0,
+            "qc": "PASS",
+            "area": 1042.0992
+        },
+        {
+            "b": 314,
+            "sec": 776,
+            "mm": 14.86,
+            "k": 32.0,
+            "qc": "PASS",
+            "area": 1079.1936
+        },
+        {
+            "b": 314,
+            "sec": 782,
+            "mm": 14.74,
+            "k": 32.0,
+            "qc": "PASS",
+            "area": 796.9535999999999
+        },
+        {
+            "b": 314,
+            "sec": 800,
+            "mm": 14.38,
+            "k": 33.0,
+            "qc": "PASS",
+            "area": 999.4752
+        },
+        {
+            "b": 314,
+            "sec": 818,
+            "mm": 14.02,
+            "k": 34.0,
+            "qc": "PASS",
+            "area": 836.1216
+        },
+        {
+            "b": 314,
+            "sec": 824,
+            "mm": 13.9,
+            "k": 34.0,
+            "qc": "PASS",
+            "area": 964.224
+        },
+        {
+            "b": 314,
+            "sec": 860,
+            "mm": 13.18,
+            "k": 36.0,
+            "qc": "PASS",
+            "area": 856.6272
+        },
+        {
+            "b": 314,
+            "sec": 878,
+            "mm": 12.82,
+            "k": 36.0,
+            "qc": "PASS",
+            "area": 739.584
+        },
+        {
+            "b": 314,
+            "sec": 920,
+            "mm": 11.98,
+            "k": 38.0,
+            "qc": "PASS",
+            "area": 756.6336
+        },
+        {
+            "b": 314,
+            "sec": 926,
+            "mm": 11.86,
+            "k": 38.0,
+            "qc": "PASS",
+            "area": 712.8575999999999
+        },
+        {
+            "b": 314,
+            "sec": 932,
+            "mm": 11.74,
+            "k": 39.0,
+            "qc": "PASS",
+            "area": 765.3888
+        },
+        {
+            "b": 314,
+            "sec": 938,
+            "mm": 11.62,
+            "k": 39.0,
+            "qc": "PASS",
+            "area": 748.5695999999999
+        },
+        {
+            "b": 314,
+            "sec": 950,
+            "mm": 11.38,
+            "k": 39.0,
+            "qc": "PASS",
+            "area": 722.0735999999999
+        },
+        {
+            "b": 314,
+            "sec": 956,
+            "mm": 11.26,
+            "k": 40.0,
+            "qc": "PASS",
+            "area": 711.7056
+        },
+        {
+            "b": 314,
+            "sec": 980,
+            "mm": 10.78,
+            "k": 41.0,
+            "qc": "PASS",
+            "area": 646.2719999999999
+        },
+        {
+            "b": 314,
+            "sec": 998,
+            "mm": 10.42,
+            "k": 41.0,
+            "qc": "PASS",
+            "area": 637.5168
+        },
+        {
+            "b": 314,
+            "sec": 1040,
+            "mm": 9.58,
+            "k": 43.0,
+            "qc": "PASS",
+            "area": 476.0064
+        },
+        {
+            "b": 314,
+            "sec": 1052,
+            "mm": 9.34,
+            "k": 44.0,
+            "qc": "PASS",
+            "area": 434.7648
+        },
+        {
+            "b": 314,
+            "sec": 1154,
+            "mm": 7.3,
+            "k": 48.0,
+            "qc": "PASS",
+            "area": 60.1344
+        },
+        {
+            "b": 314,
+            "sec": 1160,
+            "mm": 7.18,
+            "k": 48.0,
+            "qc": "PASS",
+            "area": 63.1296
+        },
+        {
+            "b": 314,
+            "sec": 1172,
+            "mm": 6.94,
+            "k": 49.0,
+            "qc": "PASS",
+            "area": 53.2224
+        },
+        {
+            "b": 314,
+            "sec": 1244,
+            "mm": 5.5,
+            "k": 52.0,
+            "qc": "PASS",
+            "area": 49.9968
+        },
+        {
+            "b": 314,
+            "sec": 1256,
+            "mm": 5.26,
+            "k": 52.0,
+            "qc": "PASS",
+            "area": 38.2464
+        },
+        {
+            "b": 314,
+            "sec": 1262,
+            "mm": 5.14,
+            "k": 52.0,
+            "qc": "PASS",
+            "area": 43.3152
+        },
+        {
+            "b": 315,
+            "sec": 44,
+            "mm": 31.24,
+            "k": 2.0,
+            "qc": "FAIL",
+            "area": 0.0
+        },
+        {
+            "b": 315,
+            "sec": 440,
+            "mm": 39.16,
+            "k": 18.0,
+            "qc": "FAIL",
+            "area": 504.1152
+        },
+        {
+            "b": 315,
+            "sec": 464,
+            "mm": 39.64,
+            "k": 19.0,
+            "qc": "PASS",
+            "area": 929.8944
+        },
+        {
+            "b": 315,
+            "sec": 488,
+            "mm": 40.12,
+            "k": 20.0,
+            "qc": "PASS",
+            "area": 1075.968
+        },
+        {
+            "b": 315,
+            "sec": 506,
+            "mm": 40.48,
+            "k": 21.0,
+            "qc": "PASS",
+            "area": 2109.7728
+        },
+        {
+            "b": 315,
+            "sec": 512,
+            "mm": 40.6,
+            "k": 21.0,
+            "qc": "PASS",
+            "area": 1127.3472
+        },
+        {
+            "b": 315,
+            "sec": 542,
+            "mm": 41.2,
+            "k": 22.0,
+            "qc": "PASS",
+            "area": 1944.1152
+        },
+        {
+            "b": 315,
+            "sec": 572,
+            "mm": 41.8,
+            "k": 23.0,
+            "qc": "PASS",
+            "area": 1962.5472
+        },
+        {
+            "b": 315,
+            "sec": 584,
+            "mm": 42.04,
+            "k": 24.0,
+            "qc": "PASS",
+            "area": 1971.072
+        },
+        {
+            "b": 315,
+            "sec": 602,
+            "mm": 42.4,
+            "k": 24.0,
+            "qc": "PASS",
+            "area": 2071.9872
+        },
+        {
+            "b": 315,
+            "sec": 608,
+            "mm": 42.52,
+            "k": 25.0,
+            "qc": "PASS",
+            "area": 2065.0752
+        },
+        {
+            "b": 315,
+            "sec": 620,
+            "mm": 42.76,
+            "k": 25.0,
+            "qc": "PASS",
+            "area": 1961.3952
+        },
+        {
+            "b": 315,
+            "sec": 632,
+            "mm": 43.0,
+            "k": 26.0,
+            "qc": "PASS",
+            "area": 2088.3456
+        },
+        {
+            "b": 315,
+            "sec": 644,
+            "mm": 43.24,
+            "k": 26.0,
+            "qc": "PASS",
+            "area": 1104.0768
+        },
+        {
+            "b": 315,
+            "sec": 668,
+            "mm": 43.72,
+            "k": 27.0,
+            "qc": "PASS",
+            "area": 1159.6032
+        },
+        {
+            "b": 315,
+            "sec": 686,
+            "mm": 44.08,
+            "k": 28.0,
+            "qc": "PASS",
+            "area": 1636.3008
+        },
+        {
+            "b": 315,
+            "sec": 698,
+            "mm": 44.32,
+            "k": 28.0,
+            "qc": "PASS",
+            "area": 1755.4176
+        },
+        {
+            "b": 315,
+            "sec": 704,
+            "mm": 44.44,
+            "k": 29.0,
+            "qc": "PASS",
+            "area": 1812.5568
+        },
+        {
+            "b": 315,
+            "sec": 734,
+            "mm": 45.04,
+            "k": 30.0,
+            "qc": "PASS",
+            "area": 1182.8736
+        },
+        {
+            "b": 315,
+            "sec": 764,
+            "mm": 45.64,
+            "k": 31.0,
+            "qc": "PASS",
+            "area": 1887.2064
+        },
+        {
+            "b": 315,
+            "sec": 788,
+            "mm": 46.12,
+            "k": 32.0,
+            "qc": "PASS",
+            "area": 1554.7392
+        },
+        {
+            "b": 315,
+            "sec": 842,
+            "mm": 47.2,
+            "k": 34.0,
+            "qc": "PASS",
+            "area": 1471.5648
+        },
+        {
+            "b": 315,
+            "sec": 848,
+            "mm": 47.32,
+            "k": 35.0,
+            "qc": "PASS",
+            "area": 1656.3456
+        },
+        {
+            "b": 315,
+            "sec": 854,
+            "mm": 47.44,
+            "k": 35.0,
+            "qc": "PASS",
+            "area": 1742.976
+        },
+        {
+            "b": 315,
+            "sec": 908,
+            "mm": 48.52,
+            "k": 37.0,
+            "qc": "FAIL",
+            "area": 258.9696
+        },
+        {
+            "b": 315,
+            "sec": 914,
+            "mm": 48.64,
+            "k": 37.0,
+            "qc": "FAIL",
+            "area": 571.6224
+        }
+    ],
+    "stains": [
+        "HEOS",
+        "NISL",
+        "MYEL",
+        "IHCS",
+        "IHC3"
+    ],
+    "stains_file": "stains.bin",
+    "n_global_sections": 8291,
+    "section_thickness_mm": 0.02
+}
