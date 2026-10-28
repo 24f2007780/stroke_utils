@@ -104,6 +104,7 @@ STROKE_PROTEINS = {
     "HIF1a": "Hypoxic regions (HIF1a+)",
     "Nissl": "Cell density (Nissl+)",
     "H&E": "Infarct (H&E)",
+    "HEOS": "Infarct (H&E, HEOS stain)",   # the server files H&E annotations under HEOS/<biosample>/HEOS/...
     "APP": "Axonal injury (APP+)",
     "GAP43": "Axonal regrowth (GAP43+)",
 }
@@ -120,7 +121,7 @@ _STROKE_TO_ATLAS = {v: k for k, v in ATLAS_BIOSAMPLE_MAP.items()}
 
 _COLORS = {
     "CD68": "#D55E00", "GFAP": "#009E73", "FIB": "#CC79A7", "CD34": "#0072B2", "HIF1a": "#F0E442",
-    "Nissl": "#56B4E9", "H&E": "#7F7F7F", "APP": "#8E44AD", "GAP43": "#FF7F00",
+    "Nissl": "#56B4E9", "H&E": "#7F7F7F", "HEOS": "#7F7F7F", "APP": "#8E44AD", "GAP43": "#FF7F00",
 }
 
 _COLLECTION_CACHE = {}  # url -> parsed FeatureCollection; never mutated, only read
