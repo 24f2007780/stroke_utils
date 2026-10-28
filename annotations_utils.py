@@ -172,9 +172,15 @@ def _session(workers):
     import requests
     from requests.adapters import HTTPAdapter
 
+    from urllib3.util.retry import Retry
+
+    # The annotation server answers 502/503/504 under bursts of requests: retry those with a growing pause
+    # (still reported as an error afterwards if it never recovers).
+    retry = Retry(total=5, backoff_factor=1.0, status_forcelist=(502, 503, 504), allowed_methods=("GET", "HEAD"),
+                  respect_retry_after_header=True, raise_on_status=False)
     s = requests.Session()
-    s.mount("https://", HTTPAdapter(pool_connections=workers, pool_maxsize=workers))
-    s.mount("http://", HTTPAdapter(pool_connections=workers, pool_maxsize=workers))
+    s.mount("https://", HTTPAdapter(pool_connections=workers, pool_maxsize=workers, max_retries=retry))
+    s.mount("http://", HTTPAdapter(pool_connections=workers, pool_maxsize=workers, max_retries=retry))
     return s
 
 
@@ -612,7 +618,7 @@ def find_stack_index(roi, meta, section_num, biosample_id=None, atlas_sections=N
 
 def load_roi_annotations(roi, meta, biosample_id=None, proteins=None, api_base=STROKE_API_BASE, stain=None,
                          section_indices=None, atlas_sections=None, atlas_biosample_id=None, atlas_stain=None,
-                         atlas_api_url=None, timeout=60, workers=12, verbose=True, **transform_kwargs):
+                         atlas_api_url=None, timeout=60, workers=6, verbose=True, **transform_kwargs):
     """Annotations for every section of an ROI stack, transformed to ROI pixels and clipped to the ROI.
 
     Steps: stack index -> Atlas section (roi_utils.resolve_atlas_sections, never assumed equal) -> availability per
