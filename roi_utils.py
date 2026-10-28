@@ -115,7 +115,8 @@ def load_roi(path, mmap=False):
 def _parse_filename(base):
     """Best-effort metadata from an ROI Extractor filename."""
     meta = {}
-    m = (re.search(r"(?:biosample|sample|brain)[-_=]?([a-zA-Z0-9]+)", base, re.I)
+    m = (re.search(r"^ROI_(\d+)_", base)                       # ROI_<biosample>_SE<n>_X..._<stain>.npy
+         or re.search(r"(?:biosample|sample|brain)[-_=]?([a-zA-Z0-9]+)", base, re.I)
          or re.search(r"^(Q\d+)", base))
     if m:
         meta["Brain sample / biosample"] = m.group(1)
@@ -141,6 +142,33 @@ def _parse_filename(base):
     if m:
         meta["Resolution"] = m.group(1) or f"Level {m.group(2)}"
     return meta
+
+
+def _roi_meta(filename, parsed):
+    """The dict load_and_preview_roi(..., return_meta=True) returns: everything the file name encodes.
+
+    Name format: ROI_<biosample>_SE<section>_X<x>_Y<y>_Z<z>_<w>x<h>_L<level>_<plane>_<stain>.npy
+    e.g. ROI_580_SE1193_X67364_Y103338_Z21_512x512_L4_axial_IHCS.npy. Fields missing from the name are None.
+    """
+    base = re.sub(r"\.npy$", "", filename, flags=re.I)
+
+    def find(pat, cast=int):
+        m = re.search(pat, base)
+        return cast(m.group(1)) if m else None
+
+    size = re.search(r"(\d+)x(\d+)", base)
+    biosample = parsed.get("Brain sample / biosample")
+    return {
+        "filename": filename,
+        "biosample_id": int(biosample) if str(biosample).isdigit() else None,   # Atlas (image) biosample, e.g. 580
+        "center_section": find(r"(?:SE|se|sec|section(?:_number)?)[-_=]?(\d+)"),
+        "x": parsed.get("Center X"), "y": parsed.get("Center Y"),
+        "z": find(r"(?:^|[-_&])[zZ][-_=]?(\d+)"),
+        "size": (int(size.group(1)), int(size.group(2))) if size else None,
+        "level": find(r"(?:^|[-_&])L(\d+)"),
+        "plane": find(r"_(axial|coronal|sagittal)(?:_|$)", str),
+        "stain": parsed.get("Stain"),
+    }
 
 
 def _download_drive(file_id, dest_path):
@@ -218,7 +246,7 @@ def get_sgbc_roi_id(timeout=20):
 
 
 def load_and_preview_roi(drive_id=None, custom_sections=None, mmap=False, preview=True, return_meta=False,
-                         atlas_biosample_id=None, atlas_sections=None):
+                         atlas_labels=False, atlas_biosample_id=None, atlas_sections=None):
     """Download an ROI stack from Google Drive, print its info, and preview it.
 
     drive_id         Google Drive file ID or share URL (file must be link-shared). Omit it to receive the ID
@@ -226,11 +254,14 @@ def load_and_preview_roi(drive_id=None, custom_sections=None, mmap=False, previe
     custom_sections  list of section indices to preview (default: ~10 evenly spaced).
     mmap             keep the download on disk and memory-map it (huge stacks).
     preview          set False to skip the plot.
-    atlas_biosample_id  label the preview with Atlas section numbers (SE<number>) instead of stack indices:
-                     looked up with resolve_atlas_sections from the file's stain and centre section.
+    atlas_labels     True: title the preview with Atlas section numbers (SE<number>) instead of stack indices,
+                     looked up with resolve_atlas_sections from the biosample, stain and centre section that
+                     the file name encodes.
+    atlas_biosample_id  override the biosample read from the file name (only needed for older file names).
     atlas_sections   or pass your own {stack_index: Atlas section} mapping (takes precedence).
-    return_meta      also return {"filename", "center_section", "stain"} parsed from the file name
-                     (center_section is the Atlas section the stack is centred on; see resolve_atlas_sections).
+    return_meta      also return what the file name encodes (ROI_<biosample>_SE<section>_X<x>_Y<y>_Z<z>_<w>x<h>_L<level>_
+                     <plane>_<stain>.npy): {"filename", "biosample_id", "center_section", "x", "y", "z", "size", "level",
+                     "plane", "stain"}; missing fields are None. See resolve_atlas_sections for center_section.
 
     Returns the ROI as a NumPy array (or (roi, meta) with return_meta=True).
     """
@@ -269,13 +300,14 @@ def load_and_preview_roi(drive_id=None, custom_sections=None, mmap=False, previe
         for k, v in meta.items():
             print(f"  • {k:<25}: {v}")
 
-    se = re.search(r"(?:SE|se|sec|section(?:_number)?)[-_=]?(\d+)", re.sub(r"\.npy$", "", filename, flags=re.I))
-    if atlas_sections is None and atlas_biosample_id is not None:
-        if not se or not meta.get("Stain"):
-            raise ValueError("Cannot label with Atlas sections: no SE<number> or stain in the file name "
-                             f"{filename!r}. Pass atlas_sections={{stack_index: section}} instead.")
-        rows = resolve_atlas_sections(range(_n_sections(roi)), biosample_id=atlas_biosample_id, stain=meta["Stain"],
-                                      center_section=int(se.group(1)), n_sections=_n_sections(roi), verbose=False)
+    info = _roi_meta(filename, meta)
+    if atlas_sections is None and (atlas_labels or atlas_biosample_id is not None):
+        bio = atlas_biosample_id if atlas_biosample_id is not None else info["biosample_id"]
+        if bio is None or info["center_section"] is None or not info["stain"]:
+            raise ValueError(f"Cannot label with Atlas sections: biosample, SE<number> or stain missing in the file "
+                             f"name {filename!r}. Pass atlas_sections={{stack_index: section}} instead.")
+        rows = resolve_atlas_sections(range(_n_sections(roi)), biosample_id=bio, stain=info["stain"],
+                                      center_section=info["center_section"], n_sections=_n_sections(roi), verbose=False)
         atlas_sections = {r["stack_index"]: r["atlas_section"] for r in rows}
 
     if preview:
@@ -285,8 +317,7 @@ def load_and_preview_roi(drive_id=None, custom_sections=None, mmap=False, previe
         else:
             preview_sections(roi, sections=np.linspace(0, n - 1, min(10, n), dtype=int), atlas_sections=atlas_sections)
     if return_meta:
-        return roi, {"filename": filename, "center_section": int(se.group(1)) if se else None,
-                     "stain": meta.get("Stain")}
+        return roi, info
     return roi
 
 
