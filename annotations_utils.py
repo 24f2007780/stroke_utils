@@ -112,6 +112,7 @@ STROKE_PROTEINS = {
 # Registered coordinates are level-0 pixels of the 192000 x 192000 TIFF; the extractor's full-resolution grid is that
 # image / 8 (24000 px), so 8 registered units = 1 full-res px. No translation (see module docstring).
 DEFAULT_UNITS_PER_FULLRES_PX = 8.0
+FULLRES_GRID_PX = 24000                 # width of the extractor full-resolution grid (192000 registered units / 8)
 DEFAULT_OFFSET_XY = (0.0, 0.0)         # registered units: col = (X - ox) / upp,  row = (-Y - oy) / upp
 
 # Atlas (ROI image) biosample -> Stroke annotation biosample. Either id is accepted wherever `biosample_id` is taken.
@@ -434,6 +435,14 @@ def make_roi_transform(roi, meta=None, units_per_fullres_px=DEFAULT_UNITS_PER_FU
             m = re.search(r"(?:^|[-_&])[yY][-_=]?(\d+)", fname)
             cy = m.group(1) if m else None
         center_xy = (float(cx), float(cy)) if cx is not None and cy is not None else None
+        # The extractor's full-resolution grid is FULLRES_GRID_PX wide. Newer (SGBC) ROI names carry the centre in
+        # level-0 registered units instead (e.g. X52679 on a 24000 px grid), 8x larger: convert it.
+        limit = FULLRES_GRID_PX
+        if center_xy is not None and max(center_xy) > limit:
+            center_xy = (center_xy[0] / units_per_fullres_px, center_xy[1] / units_per_fullres_px)
+            warnings.warn(f"ROI centre in the file name is outside the {limit} px full-resolution grid, so it is "
+                          f"read as registered level-0 units and divided by {units_per_fullres_px:g}: "
+                          f"centre = ({center_xy[0]:g}, {center_xy[1]:g}). Pass center_xy= to override.", stacklevel=2)
     if level_factor is None:
         lvl = _meta_get(meta, ("level", "Level"))
         if lvl is None:
