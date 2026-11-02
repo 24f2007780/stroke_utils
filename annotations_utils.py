@@ -898,11 +898,14 @@ def create_annotation_overlay(roi, annotations, section_index, proteins=None, al
 
 
 def preview_annotations(roi, annotations, section_index, proteins=None, alpha=0.35, color_by="feature",
-                        figsize=(8, 8), ax=None, show=True):
+                        figsize=(8, 8), ax=None, show=True, atlas_section=None):
     """Show the original ROI section with the annotation polygons on top and a protein legend.
 
     annotations   RoiAnnotations from load_roi_annotations, or records already in ROI coordinates
                   (to_roi_coordinates). proteins=["GFAP", "CD68"] shows only those. `roi` is not modified.
+    atlas_section Original section number to show in the title, e.g. when `annotations` is a plain
+                  {protein: [records]} dict re-keyed by the caller (no RoiAnnotations.atlas_sections to
+                  read) - pass it explicitly instead of eyeballing "is this the right section" from the plot.
     Returns the matplotlib Figure for further editing/saving, or None if it was already shown
     (show=True and no `ax` was passed) - returning an already-shown figure would make Jupyter
     display it a second time as the cell's result.
@@ -934,7 +937,9 @@ def preview_annotations(roi, annotations, section_index, proteins=None, alpha=0.
     ax.set_ylim(H, 0)
     ax.axis("off")
     title = f"Stack section {section_index}"
-    if isinstance(annotations, RoiAnnotations) and annotations.atlas_sections:
+    if atlas_section is not None:
+        title += f" (Atlas SE {atlas_section})"
+    elif isinstance(annotations, RoiAnnotations) and annotations.atlas_sections:
         title += f" (Atlas SE {annotations.atlas_sections.get(section_index)})"
     ax.set_title(title + ("" if recs else " - no annotations in this ROI"), fontsize=11)
     if counts:
@@ -943,6 +948,8 @@ def preview_annotations(roi, annotations, section_index, proteins=None, alpha=0.
                   loc="upper left", bbox_to_anchor=(0, -0.01), fontsize=8, frameon=False)
     if fig is not None:
         fig.tight_layout()
+        if counts:
+            fig.subplots_adjust(bottom=0.08 + 0.035 * len(counts))  # room for the legend below the axes
         if show:
             plt.show()
             return None
