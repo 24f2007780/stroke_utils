@@ -90,6 +90,7 @@ __all__ = [
     "create_stack_annotation_masks",
     "create_annotation_overlay",
     "preview_annotations",
+    "richest_sections",
     "validate_roi_annotations",
 ]
 
@@ -954,6 +955,19 @@ def preview_annotations(roi, annotations, section_index, proteins=None, alpha=0.
             plt.show()
             return None
     return fig if fig is not None else ax.figure
+
+
+def richest_sections(annotations, top=3):
+    """Keys of the `top` sections holding the most polygons for any one protein (sorted). [] if nothing is annotated.
+
+    annotations is {key: {protein: [records]}}, e.g. a RoiAnnotations or the Z-depth re-keyed dict.
+    """
+    best = {}
+    for key, per_protein in annotations.items():
+        for protein, recs in per_protein.items():
+            if len(recs) > best.get(protein, (0, None))[0]:
+                best[protein] = (len(recs), key)
+    return sorted({key for _, key in sorted(best.values(), reverse=True)[:top]})
 
 
 # --------------------------------------------------------------------------- #

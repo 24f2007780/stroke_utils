@@ -36,7 +36,7 @@ __all__ = ["MRI", "load_mri", "load_manifest", "inspect_mri", "intensity_qc", "p
            "paired_threshold_sensitivity", "plot_joint_diffusion", "show_diffusion_pair",
            "compare_mri_volumes", "load_manifest_volume", "regional_lesion_burden",
            "map_voxel_to_histology_section", "extract_block_plane_from_mri",
-           "lesion_border_profile"]
+           "lesion_border_profile", "core_plane_at_section"]
 
 _PLANE_WORLD_AXIS = {"sagittal": 0, "coronal": 1, "axial": 2}   # plane is perpendicular to this world axis
 
@@ -1336,3 +1336,15 @@ def extract_block_plane_from_mri(mri, manifest, block_id, section=None, global_s
         "bk": float(bk_target),
     }
 
+
+
+def core_plane_at_section(mri, core_mask, manifest, block_id, section):
+    """MRI plane and core-mask plane along the cutting plane of one histology section -> (mri_plane, mask_plane).
+
+    Both dicts come from extract_block_plane_from_mri; `section` is clamped to the block's range. Overlay them with
+    ax.imshow(mri_plane["image"]); ax.contour(mask_plane["image"], levels=[0.5]).
+    """
+    class _Vol:  # extract_block_plane_from_mri only reads .data and .shape
+        data, shape = core_mask.astype(float), core_mask.shape
+    return (extract_block_plane_from_mri(mri, manifest, block_id, section=section),
+            extract_block_plane_from_mri(_Vol, manifest, block_id, section=section))
